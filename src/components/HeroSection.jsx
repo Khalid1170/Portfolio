@@ -11,11 +11,11 @@ export const HeroSection = () => {
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
             <span className="opacity-0 animate-fade-in-delay-1">Hello, I'm</span>
             <span className="text-primary opacity-0 animate-fade-in-delay-2"> Khalid </span>
-            <span className="opacity-0 animate-fade-in-delay-3"> Ahmed</span>
+            <span className="opacity-0 animate-fade-in-delay-3"> Abdi</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-            I’m Khalid Ahmed, a Junior Software Developer from Bristol. I build clean, responsive web apps using React, JavaScript, and Python. Always eager to learn and solve problems with code. Check out my projects and let’s connect!
+          <p className="card-hover text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
+            I’m Khalid Abdi, a Junior Software Developer from Bristol. I build clean, responsive web apps using React, JavaScript, and Python. Always eager to learn and solve problems with code. Check out my projects and let’s connect!
           </p>
 
           <div className="pt-4 opacity-0 animate-fade-in-delay-4">
