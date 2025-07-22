@@ -1,6 +1,7 @@
 import { AboutMe } from "../components/AboutMe.jsx";
 import { HeroSection } from "../components/HeroSection.jsx";
 import { Navbar } from "../components/Navbar";
+import { SkillsSection } from "../components/SkillsSection.jsx";
 import { StarBackground } from "../components/StarBackground";
 import { ThemeToggle } from "../components/ThemeToggle";
 
@@ -22,6 +23,7 @@ export const Home = () => {
     <HeroSection />
 
     <AboutMe />
+    < SkillsSection />
 
     </main>
     {/* Footer */}
