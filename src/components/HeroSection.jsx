@@ -67,8 +67,7 @@ export const HeroSection = () => {
             variants={itemVariants}
             className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-normal"
           >
-            A full-stack web developer based in Bristol. I engineer sleek, responsive 
-            digital applications using React, JavaScript, and Python—transforming intricate complex backend architectures into accessible user interactions.
+            Full-stack web developer based in Bristol building modern, responsive web applications with React, JavaScript, and Python. I enjoy turning ideas and designs into fully functional, production-ready products with clean, scalable code.
           </motion.p>
 
           {/* Call To Action Buttons */}
