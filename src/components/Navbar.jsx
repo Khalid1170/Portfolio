@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const navItems = [
@@ -13,66 +13,125 @@ const navItems = [
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // Sync scroll positioning state
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.screenY > 10);
+      // FIX: Changed from window.screenY to window.scrollY to accurately target page coordinates
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Sync systemic theme context configurations
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      localStorage.setItem("theme", "light");
+      setIsDarkMode(false);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setIsDarkMode(true);
+    }
+  };
+
   return (
     <nav
       className={cn(
-        "md:fixed w-full z-40 transition-all duration-300",
-        isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-xs" : "py-5"
+        // FIX: Replaced md:fixed with universal fixed so mobile navigation handles fixed tracking points smoothly
+        "fixed top-0 w-full z-40 transition-all duration-300 left-0 right-0",
+        isScrolled 
+          ? "py-3 bg-background/80 backdrop-blur-md border-b border-border/40 shadow-xs" 
+          : "py-5 bg-transparent"
       )}
     >
-      <div className="container flex items-center justify-between">
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        
+        {/* Brand Architecture Link Logo */}
         <a
-          className="text-xl font-bold text-primary flex items-center"
+          className="text-xl font-bold text-primary flex items-center z-50"
           href="#hero"
         >
-          <span className="relative z-10">
-            <span className="text-glow text-foreground"> Khalid </span>{" "}
-            Portfolio
+          <span className="relative">
+            <span className="text-foreground">Khalid</span> Portfolio
           </span>
         </a>
 
-        {/* desktop nav */}
-        <div className="hidden md:flex space-x-8">
-          {navItems.map((item, key) => (
-            <a
-              key={key}
-              href={item.href}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
-            >
-              {item.name}
-            </a>
-          ))}
+        {/* Desktop Interface Layout Controls */}
+        <div className="hidden md:flex items-center space-x-8">
+          <div className="flex space-x-8">
+            {navItems.map((item, key) => (
+              <a
+                key={key}
+                href={item.href}
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+
+          {/* Desktop Core Toggle Module */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-xl bg-secondary/20 hover:bg-secondary border border-border/40 text-muted-foreground hover:text-foreground transition-all duration-200"
+            aria-label="Toggle structural theme palette"
+          >
+            {isDarkMode ? (
+              <Sun className="h-4 w-4 text-yellow-400" />
+            ) : (
+              <Moon className="h-4 w-4 text-blue-500" />
+            )}
+          </button>
         </div>
 
-        {/* mobile nav */}
+        {/* Mobile Interface Trigger Menu Mechanics */}
+        <div className="flex items-center gap-4 md:hidden z-50">
+          {/* Quick theme action access for fast mobile toggle interaction */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-secondary/30 text-muted-foreground"
+            aria-label="Toggle mobile theme palette"
+          >
+            {isDarkMode ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-blue-500" />}
+          </button>
 
-        <button
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="md:hidden p-2 text-foreground z-50"
-          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}{" "}
-        </button>
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="p-2 text-foreground focus:outline-hidden"
+            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
+        {/* Mobile Interface Slide-out Fullscreen Dropdown Overlay Panel */}
         <div
           className={cn(
-            "fixed inset-0 bg-background/95 backdroup-blur-md z-40 flex flex-col items-center justify-center",
+            // FIX: Repaired backdrop-blur spelling mistake from original script framework
+            "fixed inset-0 bg-background/98 backdrop-blur-lg z-40 flex flex-col items-center justify-center",
             "transition-all duration-300 md:hidden",
             isMenuOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
+              ? "opacity-100 pointer-events-auto translate-y-0"
+              : "opacity-0 pointer-events-none -translate-y-4"
           )}
         >
-          <div className="flex flex-col space-y-8 text-xl">
+          <div className="flex flex-col space-y-8 text-center text-2xl font-semibold tracking-tight">
             {navItems.map((item, key) => (
               <a
                 key={key}
@@ -85,6 +144,7 @@ export const Navbar = () => {
             ))}
           </div>
         </div>
+
       </div>
     </nav>
   );

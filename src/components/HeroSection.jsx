@@ -26,7 +26,7 @@ export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center px-3 overflow-hidden bg-background"
+      className="relative min-h-[80vh] sm:min-h-screen flex flex-col items-center justify-start sm:justify-center pt-28 pb-20 sm:py-0 px-2 overflow-hidden bg-background"
     >
       {/* Background Tech Mesh & Glows */}
       <div className="absolute " />
@@ -36,7 +36,7 @@ export const HeroSection = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container max-w-4xl mx-auto text-center z-10"
+        className="container max-w-4xl mx-auto text-center z-10 my-auto sm:my-0"
       >
         <div className="flex flex-col items-center space-y-7 md:space-y-8">
           
@@ -101,13 +101,13 @@ export const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center group cursor-pointer"
+        className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20"
         onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
       >
-        <span className="text-xs tracking-widest uppercase font-semibold text-muted-foreground group-hover:text-foreground transition-colors duration-300 mb-2.5">
+        <span className="text-[10px] sm:text-xs tracking-widest uppercase font-semibold text-muted-foreground group-hover:text-foreground transition-colors duration-300 mb-1.5 sm:mb-2.5">
           Scroll Down
         </span>
-        <div className="flex items-center justify-center w-8 h-12 rounded-full border-2 border-muted-foreground/30 group-hover:border-primary/60 transition-colors duration-300">
+        <div className="flex items-center justify-center w-7 h-11 sm:w-8 sm:h-12 rounded-full border-2 border-muted-foreground/30 group-hover:border-primary/60 transition-colors duration-300">
           <motion.div 
             animate={{ 
               y: [0, 12, 0],
@@ -117,7 +117,7 @@ export const HeroSection = () => {
               repeat: Infinity, 
               ease: "easeInOut" 
             }}
-            className="w-1.5 h-3 bg-primary rounded-full"
+            className="w-1.5 h-2.5 sm:h-3 bg-primary rounded-full"
           />
         </div>
       </motion.div>
