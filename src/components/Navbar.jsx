@@ -26,18 +26,24 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Sync systemic theme context configurations
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark") {
-      setIsDarkMode(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      localStorage.setItem("theme", "light");
-      setIsDarkMode(false);
+// Sync systemic theme context configurations
+useEffect(() => {
+  const storedTheme = localStorage.getItem("theme");
+  
+  // If the user has explicitly selected 'light' before, set it to light
+  if (storedTheme === "light") {
+    setIsDarkMode(false);
+    document.documentElement.classList.remove("dark");
+  } else {
+    // Otherwise, default to dark (handles brand-new visitors and 'dark' preferences)
+    setIsDarkMode(true);
+    document.documentElement.classList.add("dark");
+    // Optionally save it so their preference is locked in immediately
+    if (!storedTheme) {
+      localStorage.setItem("theme", "dark");
     }
-  }, []);
-
+  }
+}, []);
   const toggleTheme = () => {
     if (isDarkMode) {
       document.documentElement.classList.remove("dark");
