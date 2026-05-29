@@ -213,7 +213,7 @@ export const WorkSection = () => {
                   {/* Thumbnail Container (Full Screenshot Viewports Fixed Here) */}
                   <div 
                     onClick={() => setLightbox({ isOpen: true, projectId: project.id, index: currentImgIndex })}
-                    className="relative aspect-[16/10] w-full rounded-2xl border border-border/60 bg-muted/20 backdrop-blur-sm overflow-hidden group shadow-md cursor-zoom-in"
+                    className="relative  w-full rounded-3xl border border-border/60  backdrop-blur-sm overflow-hidden group shadow-md cursor-zoom-in"
                   >
                     <AnimatePresence mode="wait">
                       <motion.img
