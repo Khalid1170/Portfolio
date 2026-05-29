@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Layers, CheckCircle2, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ExternalLink, Layers, CheckCircle2, ChevronLeft, ChevronRight, X, Construction } from "lucide-react";
 
 const projects = [
   {
     id: "tagmycar",
     title: "TagMyCar",
+    status: "development", // Added developmental state mapping
     liveUrl: "https://tagmycar-9ndc.vercel.app/",
     tagline: "Automotive Marketplace & Physical-to-Digital Sales Engine",
     description: "A hybrid automotive marketplace bridging physical environments with online listings. The platform generates dynamic QR codes for vehicles, allowing passing buyers to instantly view comprehensive spec sheets, pricing, and history while listing the car simultaneously on a centralized public marketplace.",
@@ -21,6 +22,7 @@ const projects = [
   {
     id: "sitetailor",
     title: "SiteTailor",
+    status: "production",
     liveUrl: "https://bwk-mq43.vercel.app/",
     tagline: "Bespoke Web Development & Managed Digital Solutions",
     description: "A modern digital agency model delivering custom web architecture, complete digital transformations, and high-performance brand redesigns. Features an integrated recurring subscription framework providing businesses with dedicated monthly structural updates and continuous optimization.",
@@ -36,6 +38,7 @@ const projects = [
   {
     id: "homehelp",
     title: "HomeHelp",
+    status: "development", // Added developmental state mapping
     liveUrl: "https://homehelp.vercel.app/",
     tagline: "On-Demand Hyperlocal Task Marketplace",
     description: "A two-sided freelance service marketplace connecting residential property clients with flexible workforce options. The engine pairs everyday home tasks with verified local students seeking part-time income or certified tradespeople looking to capture secondary off-hour contract pipelines.",
@@ -116,9 +119,23 @@ export const WorkSection = () => {
                 {/* Content Panel */}
                 <div className="lg:col-span-5 flex flex-col space-y-5 text-left order-2 lg:order-1">
                   <div>
-                    <h3 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-3">
-                      {project.title}
-                    </h3>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="text-2xl font-bold tracking-tight text-foreground">
+                        {project.title}
+                      </h3>
+                      
+                      {/* Dynamic Development Status Badge */}
+                      {project.status === "development" && (
+                        <span className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-500 dark:text-amber-400 px-2.5 py-0.5 rounded-md text-[11px] font-semibold tracking-wide backdrop-blur-md shadow-xs">
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
+                          </span>
+                          Under Construction
+                        </span>
+                      )}
+                    </div>
+                    
                     <p className="text-primary font-medium text-sm mt-1 tracking-wide">
                       {project.tagline}
                     </p>

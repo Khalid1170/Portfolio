@@ -102,7 +102,7 @@ export const HeroSection = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
         className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20"
-        onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+        onClick={() => document.getElementById("project")?.scrollIntoView({ behavior: "smooth" })}
       >
         <span className="text-[10px] sm:text-xs tracking-widest uppercase font-semibold text-muted-foreground group-hover:text-foreground transition-colors duration-300 mb-1.5 sm:mb-2.5">
           Scroll Down

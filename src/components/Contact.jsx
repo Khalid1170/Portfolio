@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Phone, User, Send, CheckCircle2, MessageSquare, Copy, Check } from "lucide-react";
+import { Mail, Phone, User, Send, CheckCircle2, MessageSquare, Copy, Check, Github } from "lucide-react";
 
 export const ContactSection = () => {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
@@ -16,6 +16,14 @@ export const ContactSection = () => {
       label: "Designer",
       value: "Khalid Abdi",
       actionable: false,
+    },
+    {
+      id: "github",
+      icon: <Github className="w-5 h-5 text-primary" />,
+      label: "Open Source Blueprint",
+      value: "github.com/khalid1170",
+      href: "https://github.com/khalid1170",
+      actionable: false, // Set to true if you want users to copy the handle string instead
     },
     {
       id: "phone",
@@ -115,6 +123,8 @@ export const ContactSection = () => {
                     {method.href ? (
                       <a
                         href={method.href}
+                        target={method.id === "github" ? "_blank" : undefined}
+                        rel={method.id === "github" ? "noopener noreferrer" : undefined}
                         className="text-sm sm:text-base font-semibold text-foreground hover:text-primary transition-colors duration-200"
                       >
                         {method.value}
@@ -166,9 +176,7 @@ export const ContactSection = () => {
                     htmlFor="name"
                     className="absolute text-sm text-muted-foreground left-4 top-3.5 pointer-events-none transition-all duration-200 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                    peer-focus:scale-75 peer-focus:-translate-y-7 peer-focus:text-primary
-                    not-empty:-translate-y-7 not-empty:scale-75 bg-transparent px-1
-                    transform -translate-y-7 scale-75"
+                    peer-focus:scale-75 peer-focus:-translate-y-7 peer-focus:text-primary"
                     style={{
                       transform: formState.name ? "translateY(-1.75rem) scale(0.75)" : ""
                     }}
