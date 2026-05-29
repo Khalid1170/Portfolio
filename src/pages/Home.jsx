@@ -1,9 +1,11 @@
 import { AboutMe } from "../components/AboutMe.jsx";
+import { ContactSection } from "../components/Contact.jsx";
 import { HeroSection } from "../components/HeroSection.jsx";
 import { Navbar } from "../components/Navbar";
 import { SkillsSection } from "../components/SkillsSection.jsx";
 import { StarBackground } from "../components/StarBackground";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { WorkSection } from "../components/Work.jsx";
 
 
 export const Home = () => {
@@ -24,6 +26,8 @@ export const Home = () => {
 
     <AboutMe />
     < SkillsSection />
+    <WorkSection />
+    <ContactSection />
 
     </main>
     {/* Footer */}
