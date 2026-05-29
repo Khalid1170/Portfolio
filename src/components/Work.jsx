@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Layers, CheckCircle2, ChevronLeft, ChevronRight, X, Construction } from "lucide-react";
+import { ExternalLink, Layers, CheckCircle2, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 const projects = [
   {
     id: "tagmycar",
     title: "TagMyCar",
-    status: "development", // Added developmental state mapping
+    status: "development",
     liveUrl: "https://tagmycar-9ndc.vercel.app/",
     tagline: "Automotive Marketplace & Physical-to-Digital Sales Engine",
     description: "A hybrid automotive marketplace bridging physical environments with online listings. The platform generates dynamic QR codes for vehicles, allowing passing buyers to instantly view comprehensive spec sheets, pricing, and history while listing the car simultaneously on a centralized public marketplace.",
@@ -16,7 +16,9 @@ const projects = [
       "Real-time listing management and fluid consumer dashboards"
     ],
     images: [
-      "/tagmycar.png"
+      "/tagmycar.png",
+      "/dashboardhh.png",
+      "/inboxhh.png"
     ]
   },
   {
@@ -38,7 +40,7 @@ const projects = [
   {
     id: "homehelp",
     title: "HomeHelp",
-    status: "development", // Added developmental state mapping
+    status: "development",
     liveUrl: "https://homehelp.vercel.app/",
     tagline: "On-Demand Hyperlocal Task Marketplace",
     description: "A two-sided freelance service marketplace connecting residential property clients with flexible workforce options. The engine pairs everyday home tasks with verified local students seeking part-time income or certified tradespeople looking to capture secondary off-hour contract pipelines.",
@@ -60,26 +62,65 @@ export const WorkSection = () => {
     homehelp: 0,
   });
 
-  // Lightbox view states
-  const [lightboxImage, setLightboxImage] = useState(null);
+  // Track active project and image index inside lightbox
+  const [lightbox, setLightbox] = useState({ isOpen: false, projectId: null, index: 0 });
 
   const handleImageSelect = (projectId, index) => {
     setImageIndices((prev) => ({ ...prev, [projectId]: index }));
   };
 
   const handlePrevSlide = (e, project) => {
-    e.stopPropagation(); // Prevents triggering the lightbox on button click
+    e.stopPropagation();
     const currentIndex = imageIndices[project.id] || 0;
     const nextIndex = currentIndex === 0 ? project.images.length - 1 : currentIndex - 1;
     handleImageSelect(project.id, nextIndex);
   };
 
   const handleNextSlide = (e, project) => {
-    e.stopPropagation(); // Prevents triggering the lightbox on button click
+    e.stopPropagation();
     const currentIndex = imageIndices[project.id] || 0;
     const nextIndex = currentIndex === project.images.length - 1 ? 0 : currentIndex + 1;
     handleImageSelect(project.id, nextIndex);
   };
+
+  // Lightbox Navigation Logic
+  const activeLightboxProject = projects.find((p) => p.id === lightbox.projectId);
+
+  const handleLightboxNext = () => {
+    if (!activeLightboxProject) return;
+    setLightbox((prev) => ({
+      ...prev,
+      index: prev.index === activeLightboxProject.images.length - 1 ? 0 : prev.index + 1,
+    }));
+  };
+
+  const handleLightboxPrev = () => {
+    if (!activeLightboxProject) return;
+    setLightbox((prev) => ({
+      ...prev,
+      index: prev.index === 0 ? activeLightboxProject.images.length - 1 : prev.index - 1,
+    }));
+  };
+
+  const handleDragEnd = (event, info) => {
+    if (info.offset.x < -50) {
+      handleLightboxNext();
+    } else if (info.offset.x > 50) {
+      handleLightboxPrev();
+    }
+  };
+
+  // Lock scroll when global view overlay is active
+  useEffect(() => {
+    if (lightbox.isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [lightbox.isOpen]);
 
   return (
     <section id="project" className="py-32 px-4 relative bg-transparent overflow-hidden">
@@ -124,7 +165,6 @@ export const WorkSection = () => {
                         {project.title}
                       </h3>
                       
-                      {/* Dynamic Development Status Badge */}
                       {project.status === "development" && (
                         <span className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-500 dark:text-amber-400 px-2.5 py-0.5 rounded-md text-[11px] font-semibold tracking-wide backdrop-blur-md shadow-xs">
                           <span className="relative flex h-1.5 w-1.5">
@@ -145,7 +185,6 @@ export const WorkSection = () => {
                     {project.description}
                   </p>
 
-                  {/* Bullet Highlights */}
                   <ul className="space-y-2.5 pt-2">
                     {project.bulletPoints.map((point, idx) => (
                       <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/80 font-medium">
@@ -155,7 +194,6 @@ export const WorkSection = () => {
                     ))}
                   </ul>
 
-                  {/* External Live Trigger */}
                   <div className="pt-4">
                     <a
                       href={project.liveUrl}
@@ -172,37 +210,37 @@ export const WorkSection = () => {
                 {/* Picture Slide Stage Panel */}
                 <div className="lg:col-span-7 flex flex-col space-y-3 order-1 lg:order-2 w-full">
                   
-                  {/* Active Slide Viewer Frame */}
+                  {/* Thumbnail Container (Full Screenshot Viewports Fixed Here) */}
                   <div 
-                    onClick={() => setLightboxImage(currentImageUrl)}
-                    className="relative aspect-[16/10] w-full rounded-2xl border border-border/60 bg-card/10 backdrop-blur-sm overflow-hidden group shadow-md cursor-zoom-in"
+                    onClick={() => setLightbox({ isOpen: true, projectId: project.id, index: currentImgIndex })}
+                    className="relative aspect-[16/10] w-full rounded-2xl border border-border/60 bg-muted/20 backdrop-blur-sm overflow-hidden group shadow-md cursor-zoom-in"
                   >
                     <AnimatePresence mode="wait">
                       <motion.img
                         key={currentImgIndex}
                         src={currentImageUrl}
-                        alt={`${project.title} Interface View ${currentImgIndex + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
+                        alt={`${project.title} View ${currentImgIndex + 1}`}
+                        // Changed object-cover to object-contain + object-top to fully show screenshots without crops
+                        className="w-full h-full object-contain object-top p-2 transition-transform duration-500 group-hover:scale-[1.01]"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.2 }}
                       />
                     </AnimatePresence>
 
-                    {/* Left/Right Slide Swipe Toggles */}
                     {project.images.length > 1 && (
                       <>
                         <button
                           onClick={(e) => handlePrevSlide(e, project)}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-background/80 border border-border/40 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md backdrop-blur-md z-20 hover:scale-105"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-background/80 border border-border/40 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md backdrop-blur-md z-20"
                           aria-label="Previous screenshot"
                         >
                           <ChevronLeft className="w-5 h-5" />
                         </button>
                         <button
                           onClick={(e) => handleNextSlide(e, project)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-background/80 border border-border/40 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md backdrop-blur-md z-20 hover:scale-105"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-background/80 border border-border/40 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md backdrop-blur-md z-20"
                           aria-label="Next screenshot"
                         >
                           <ChevronRight className="w-5 h-5" />
@@ -210,9 +248,8 @@ export const WorkSection = () => {
                       </>
                     )}
 
-                    {/* Subtle Overlay Badge */}
                     <div className="absolute top-3 right-3 bg-background/80 backdrop-blur-md px-3 py-1 rounded-lg border border-border/40 text-[11px] font-mono font-semibold text-muted-foreground shadow-sm z-20">
-                      Capture {currentImgIndex + 1} / {project.images.length}
+                      {currentImgIndex + 1} / {project.images.length}
                     </div>
                   </div>
 
@@ -224,11 +261,9 @@ export const WorkSection = () => {
                           key={dotIdx}
                           onClick={() => handleImageSelect(project.id, dotIdx)}
                           className={`h-2.5 rounded-full transition-all duration-300 relative ${
-                            currentImgIndex === dotIdx 
-                              ? "w-8 bg-primary" 
-                              : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                            currentImgIndex === dotIdx ? "w-8 bg-primary" : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                           }`}
-                          aria-label={`Go to screenshot slide ${dotIdx + 1}`}
+                          aria-label={`Go to slide ${dotIdx + 1}`}
                         >
                           {currentImgIndex === dotIdx && (
                             <motion.span
@@ -241,49 +276,85 @@ export const WorkSection = () => {
                       ))}
                     </div>
                   )}
-                  
                 </div>
 
               </motion.div>
             );
           })}
         </div>
-
       </div>
 
-      {/* Full-Screen Zoom Lightbox Modal */}
+      {/* Expanded Swipe Carousel Lightbox Modal */}
       <AnimatePresence>
-        {lightboxImage && (
+        {lightbox.isOpen && activeLightboxProject && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setLightboxImage(null)}
-            className="fixed inset-0 bg-background/90 backdrop-blur-xl z-50 flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+            onClick={() => setLightbox({ isOpen: false, projectId: null, index: 0 })}
+            className="fixed inset-0 bg-background/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center p-4 md:p-12 cursor-zoom-out select-none"
           >
-            {/* Close Button Anchor */}
+            {/* Close Layout Anchor */}
             <button 
-              onClick={() => setLightboxImage(null)}
+              onClick={() => setLightbox({ isOpen: false, projectId: null, index: 0 })}
               className="absolute top-6 right-6 p-2.5 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-foreground transition-all duration-200 z-50 hover:scale-105"
             >
               <X className="w-5 h-5" />
             </button>
 
-            {/* Expanded Image Container */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative max-w-7xl max-h-[85vh] w-full rounded-2xl border border-border/80 overflow-hidden shadow-2xl bg-card"
-              onClick={(e) => e.stopPropagation()} // Stop modal dismiss when clicking the image itself
-            >
-              <img 
-                src={lightboxImage} 
-                alt="Expanded full screen application preview" 
-                className="w-full h-full object-contain max-h-[85vh] mx-auto"
-              />
-            </motion.div>
+            {/* Lightbox Main Stage Container */}
+            <div className="relative w-full max-w-6xl h-[75vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              
+              {/* Carousel Left Arrow */}
+              {activeLightboxProject.images.length > 1 && (
+                <button
+                  onClick={handleLightboxPrev}
+                  className="absolute left-0 lg:-left-16 top-1/2 -translate-y-1/2 p-3 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-foreground hover:text-primary transition-all duration-200 z-50 shadow-lg backdrop-blur-md"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+              )}
+
+              {/* Swipe/Drag Wrapper Frame */}
+              <div className="w-full h-full overflow-hidden flex items-center justify-center relative rounded-2xl border border-border/40 bg-card/40">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={lightbox.index}
+                    src={activeLightboxProject.images[lightbox.index]}
+                    alt="Expanded blueprint preview"
+                    className="w-full h-full object-contain max-h-[70vh] p-4 cursor-grab active:cursor-grabbing"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.6}
+                    onDragEnd={handleDragEnd}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ type: "spring", damping: 28, stiffness: 220 }}
+                  />
+                </AnimatePresence>
+              </div>
+
+              {/* Carousel Right Arrow */}
+              {activeLightboxProject.images.length > 1 && (
+                <button
+                  onClick={handleLightboxNext}
+                  className="absolute right-0 lg:-right-16 top-1/2 -translate-y-1/2 p-3 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-foreground hover:text-primary transition-all duration-200 z-50 shadow-lg backdrop-blur-md"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              )}
+            </div>
+
+            {/* Bottom Status Tracking Badge */}
+            <div className="mt-6 flex flex-col items-center gap-2">
+              <span className="text-sm font-semibold tracking-wide text-foreground">
+                {activeLightboxProject.title}
+              </span>
+              <span className="text-xs font-mono text-muted-foreground bg-secondary/60 border border-border/50 px-3 py-1 rounded-full">
+                Index {lightbox.index + 1} of {activeLightboxProject.images.length}
+              </span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
