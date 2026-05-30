@@ -26,7 +26,7 @@ export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-[80vh] sm:min-h-screen flex flex-col items-center justify-start sm:justify-center pt-28 pb-20 sm:py-0 px-2 overflow-hidden bg-background"
+      className="relative min-h-[80vh] sm:min-h-screen flex flex-col items-center justify-start sm:justify-center pt-28 pb-30 sm:py-0 px-2 overflow-hidden bg-background"
     >
       {/* Background Tech Mesh & Glows */}
       <div className="absolute " />
@@ -38,7 +38,7 @@ export const HeroSection = () => {
         animate="visible"
         className="container max-w-4xl mx-auto text-center z-10 my-auto sm:my-0"
       >
-        <div className="flex flex-col items-center space-y-7 md:space-y-8">
+        <div className="flex flex-col items-center space-y-9 md:space-y-8">
           
           {/* Status Badge */}
           <motion.div variants={itemVariants}>
