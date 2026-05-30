@@ -17,8 +17,7 @@ const projects = [
     ],
     images: [
       "/tagmycar.png",
-      "/dashboardhh.png",
-      "/inboxhh.png"
+      
     ]
   },
   {
@@ -50,7 +49,9 @@ const projects = [
       "Responsive service booking portals built for real-time customer dispatch"
     ],
     images: [
-      "/homehelp.png"
+      "/homehelp.png",
+      "/dashboardhh.png",
+      "/inboxhh.png"
     ]
   }
 ];
