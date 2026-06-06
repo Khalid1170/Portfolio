@@ -1,39 +1,26 @@
-import { AboutMe } from "../components/AboutMe.jsx";
-import { ContactSection } from "../components/Contact.jsx";
-import { HeroSection } from "../components/HeroSection.jsx";
-import { Navbar } from "../components/Navbar";
-import { SkillsSection } from "../components/SkillsSection.jsx";
-import { StarBackground } from "../components/StarBackground";
-import { ThemeToggle } from "../components/ThemeToggle";
-import { WorkSection } from "../components/Work.jsx";
-
+import { useEffect, useState } from "react";
 
 export const Home = () => {
-    return(
-    
-    <div className ="min-h-screen bg-background text-foreground overflow-x-hidden ">
+  const [showBg, setShowBg] = useState(false);
 
-    {/* Theme Toggle*/}
-    {/* <ThemeToggle /> */}
-    {/* Background Effects*/}
-    < StarBackground />
-    {/* Navbar */}
-    <Navbar />
-    {/* Main Content */}
+  useEffect(() => {
+    const timer = setTimeout(() => setShowBg(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
-    <main>
-    <HeroSection />
-    <WorkSection />
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {showBg && <StarBackground />}
 
+      <Navbar />
 
-    <AboutMe />
-    < SkillsSection />
-    <ContactSection />
-
-    </main>
-    {/* Footer */}
-    
+      <main>
+        <HeroSection />
+        <WorkSection />
+        <AboutMe />
+        <SkillsSection />
+        <ContactSection />
+      </main>
     </div>
-
-    );
+  );
 };
