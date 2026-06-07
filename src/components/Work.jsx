@@ -110,7 +110,7 @@ export const WorkSection = () => {
           </div>
 
           <p className="text-muted-foreground/80 font-mono text-xs leading-relaxed border-l border-primary/30 pl-4 max-w-[280px]">
-            // Production-grade systems, deterministic architectural patterns, and optimized full-stack deployments.
+            // Custom web applications, maintainable system design, and optimized full-stack engineering.
           </p>
         </div>
 

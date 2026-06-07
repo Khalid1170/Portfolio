@@ -12,14 +12,14 @@ export const ContactSection = () => {
     {
       id: "name",
       icon: <User className="w-4 h-4 text-primary" />,
-      label: "Engineer & Designer",
+      label: "Full Stack Developer",
       value: "Khalid Abdi",
       actionable: false,
     },
     {
       id: "github",
       icon: <Github className="w-4 h-4 text-primary" />,
-      label: "Open Source Infrastructure",
+      label: "GitHub Profile",
       value: "github.com/khalid1170",
       href: "https://github.com/khalid1170",
       actionable: false,
@@ -27,7 +27,7 @@ export const ContactSection = () => {
     {
       id: "phone",
       icon: <Phone className="w-4 h-4 text-primary" />,
-      label: "Secure Direct Line",
+      label: "Phone",
       value: "07810328543",
       href: "tel:07810328543",
       actionable: true,
@@ -35,7 +35,7 @@ export const ContactSection = () => {
     {
       id: "email",
       icon: <Mail className="w-4 h-4 text-primary" />,
-      label: "Secure Electronic Mail",
+      label: "Email Address",
       value: "khalidabdi321@gmail.com",
       href: "mailto:khalidabdi321@gmail.com",
       actionable: true,
@@ -75,10 +75,10 @@ export const ContactSection = () => {
         setTimeout(() => setIsSubmitted(false), 4000);
       } else {
         const data = await response.json();
-        setErrorMessage(data.error || "Transmission failed. Please verify parameters.");
+        setErrorMessage(data.error || "Message failed to send. Please try again.");
       }
     } catch (error) {
-      setErrorMessage("Network routing failure. Please verify internet connection.");
+      setErrorMessage("A network error occurred. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -86,7 +86,7 @@ export const ContactSection = () => {
 
   return (
     <section id="contact" className="py-32 px-4 relative bg-background overflow-hidden">
-      {/* Dynamic light emission structures for deep layout layering */}
+      {/* Background ambient accents for depth */}
       <div className="absolute top-1/2 right-10 -translate-y-1/2 w-[450px] h-[450px] bg-primary/5 rounded-full blur-[140px] pointer-events-none select-none" />
       <div className="absolute bottom-0 left-10 w-[300px] h-[300px] bg-muted-foreground/5 rounded-full blur-[100px] pointer-events-none select-none" />
 
@@ -94,20 +94,20 @@ export const ContactSection = () => {
         
         {/* ── HEADER BLOCK ── */}
         <div className="text-left max-w-2xl mb-24">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-secondary/30 backdrop-blur-md text-[11px] font-mono tracking-widest text-primary uppercase mb-4 animate-pulse">
-            <MessageSquare className="w-3.5 h-3.5" /> Connection Portal
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-secondary/30 backdrop-blur-md text-[11px] font-mono tracking-widest text-primary uppercase mb-4">
+            <MessageSquare className="w-3.5 h-3.5" /> Get In Touch
           </div>
           <h2 className="text-4xl md:text-6xl font-black tracking-tight text-foreground font-display leading-none">
             Let's Build <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/50 bg-clip-text text-transparent italic font-light font-sans">Together</span>
           </h2>
-          <p className="text-muted-foreground/90 font-mono text-xs sm:text-sm max-w-lg leading-relaxed mt-4 border-l border-primary/20 pl-4">
-            // Ready to initiate a new project pipeline, scale web infrastructure, or discuss contract availability? Send a direct dispatch.
+          <p className="text-muted-foreground text-sm sm:text-base max-w-lg leading-relaxed mt-4 border-l border-primary/20 pl-4">
+            Have an interesting project layout in mind or looking to bring a responsive full-stack developer onto your team? Drop a line below and let's start a conversation.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           
-          {/* ── LEFT PANEL: DIRECTORY METRICS ── */}
+          {/* ── LEFT PANEL: DIRECTORY ── */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-4">
             <div className="space-y-3.5">
               {contactMethods.map((method) => (
@@ -140,9 +140,10 @@ export const ContactSection = () => {
                     </div>
                   </div>
 
-                  {/* Interactive Clipboard Functionality */}
+                  {/* Interactive Clipboard Button */}
                   {method.actionable && (
                     <button
+                      type="button"
                       onClick={() => handleCopy(method.id, method.value)}
                       className="p-2 rounded-xl bg-secondary/0 hover:bg-secondary/60 border border-transparent hover:border-border/50 text-muted-foreground/60 hover:text-foreground transition-all duration-200 shrink-0 shadow-sm"
                       title={`Copy ${method.id}`}
@@ -158,22 +159,22 @@ export const ContactSection = () => {
               ))}
             </div>
 
-            {/* Quick Status Subcard */}
-            <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5 font-mono text-[11px] text-primary/80 text-left flex items-start gap-3 mt-4 lg:mt-0">
-              <Sparkles className="w-4 h-4 shrink-0 text-primary animate-spin-[spin_4s_linear_infinite]" />
+            {/* Availability Status Card */}
+            <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5 text-xs text-primary/80 text-left flex items-start gap-3 mt-4 lg:mt-0">
+              <Sparkles className="w-4 h-4 shrink-0 text-primary" />
               <div>
-                <span className="font-bold text-primary block mb-0.5 uppercase tracking-wide">Availability Core</span>
-                Now open for select contract roles, freelance development sprint applications, and hybrid systems architecture work.
+                <span className="font-bold text-primary block mb-0.5 uppercase tracking-wide">Current Availability</span>
+                I am open to new project collaborations, frontend developer responsibilities, and responsive full-stack contract roles.
               </div>
             </div>
           </div>
 
-          {/* ── RIGHT PANEL: TRANSACTIONAL CORE FORM ── */}
+          {/* ── RIGHT PANEL: CONTACT FORM ── */}
           <div className="lg:col-span-7">
             <div className="relative p-6 sm:p-8 rounded-3xl border border-border/40 bg-card/20 backdrop-blur-md shadow-xl shadow-black/5">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
-                {/* Floating Input Field: Name */}
+                {/* Input Field: Name */}
                 <div className="relative text-left">
                   <input
                     type="text"
@@ -187,18 +188,18 @@ export const ContactSection = () => {
                   />
                   <label
                     htmlFor="name"
-                    className="absolute text-xs font-mono font-medium tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
+                    className="absolute text-xs font-semibold tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
                     peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-primary"
                     style={{
                       transform: formState.name ? "translateY(-2rem) scale(0.75)" : ""
                     }}
                   >
-                    IDENTIFIER (YOUR NAME)
+                    YOUR NAME
                   </label>
                 </div>
 
-                {/* Floating Input Field: Email */}
+                {/* Input Field: Email */}
                 <div className="relative text-left">
                   <input
                     type="email"
@@ -212,18 +213,18 @@ export const ContactSection = () => {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute text-xs font-mono font-medium tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
+                    className="absolute text-xs font-semibold tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
                     peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-primary"
                     style={{
                       transform: formState.email ? "translateY(-2rem) scale(0.75)" : ""
                     }}
                   >
-                    ROUTING ENDPOINT (EMAIL ADDRESS)
+                    EMAIL ADDRESS
                   </label>
                 </div>
 
-                {/* Floating Input Field: Message */}
+                {/* Input Field: Message */}
                 <div className="relative text-left">
                   <textarea
                     id="message"
@@ -237,28 +238,28 @@ export const ContactSection = () => {
                   />
                   <label
                     htmlFor="message"
-                    className="absolute text-xs font-mono font-medium tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
+                    className="absolute text-xs font-semibold tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
                     peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-primary"
                     style={{
                       transform: formState.message ? "translateY(-2rem) scale(0.75)" : ""
                     }}
                   >
-                    PROJECT BREAKDOWN / CONTEXT
+                    MESSAGE OR PROJECT DETAILS
                   </label>
                 </div>
 
-                {/* Submit Trigger Actions Wrapper */}
+                {/* Submit Actions Area */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-2">
                   <div className="h-6 w-full text-left overflow-hidden">
                     {isSubmitted && (
-                      <div className="flex items-center gap-2 text-emerald-500 font-mono font-semibold text-xs tracking-wide animate-in fade-in slide-in-from-left-2 duration-300">
+                      <div className="flex items-center gap-2 text-emerald-500 font-semibold text-xs tracking-wide animate-in fade-in slide-in-from-left-2 duration-300">
                         <CheckCircle2 className="w-4 h-4 shrink-0" />
-                        DISPATCH TRANSMITTED SUCCESSFULLY.
+                        Message sent successfully!
                       </div>
                     )}
                     {errorMessage && (
-                      <div className="text-destructive font-mono font-semibold text-xs tracking-wide animate-in fade-in slide-in-from-left-2 duration-300">
+                      <div className="text-destructive font-semibold text-xs tracking-wide animate-in fade-in slide-in-from-left-2 duration-300">
                         {errorMessage}
                       </div>
                     )}
@@ -273,7 +274,7 @@ export const ContactSection = () => {
                       <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                     ) : (
                       <>
-                        Dispatch Message
+                        Send Message
                         <Send className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </>
                     )}
