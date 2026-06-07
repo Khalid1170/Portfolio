@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Phone, User, Send, CheckCircle2, MessageSquare, Copy, Check, Github } from "lucide-react";
+import { Mail, Phone, User, Send, CheckCircle2, MessageSquare, Copy, Check, Github, Sparkles } from "lucide-react";
 
 export const ContactSection = () => {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
@@ -11,31 +11,31 @@ export const ContactSection = () => {
   const contactMethods = [
     {
       id: "name",
-      icon: <User className="w-5 h-5 text-primary" />,
-      label: "Designer",
+      icon: <User className="w-4 h-4 text-primary" />,
+      label: "Engineer & Designer",
       value: "Khalid Abdi",
       actionable: false,
     },
     {
       id: "github",
-      icon: <Github className="w-5 h-5 text-primary" />,
-      label: "Open Source Blueprint",
+      icon: <Github className="w-4 h-4 text-primary" />,
+      label: "Open Source Infrastructure",
       value: "github.com/khalid1170",
       href: "https://github.com/khalid1170",
       actionable: false,
     },
     {
       id: "phone",
-      icon: <Phone className="w-5 h-5 text-primary" />,
-      label: "Direct Line",
+      icon: <Phone className="w-4 h-4 text-primary" />,
+      label: "Secure Direct Line",
       value: "07810328543",
       href: "tel:07810328543",
       actionable: true,
     },
     {
       id: "email",
-      icon: <Mail className="w-5 h-5 text-primary" />,
-      label: "Electronic Mail",
+      icon: <Mail className="w-4 h-4 text-primary" />,
+      label: "Secure Electronic Mail",
       value: "khalidabdi321@gmail.com",
       href: "mailto:khalidabdi321@gmail.com",
       actionable: true,
@@ -75,87 +75,102 @@ export const ContactSection = () => {
         setTimeout(() => setIsSubmitted(false), 4000);
       } else {
         const data = await response.json();
-        setErrorMessage(data.error || "Transmission failed. Please try again.");
+        setErrorMessage(data.error || "Transmission failed. Please verify parameters.");
       }
     } catch (error) {
-      setErrorMessage("Network error occurred. Please check your connection.");
+      setErrorMessage("Network routing failure. Please verify internet connection.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-32 px-4 relative bg-transparent overflow-hidden">
+    <section id="contact" className="py-32 px-4 relative bg-background overflow-hidden">
+      {/* Dynamic light emission structures for deep layout layering */}
+      <div className="absolute top-1/2 right-10 -translate-y-1/2 w-[450px] h-[450px] bg-primary/5 rounded-full blur-[140px] pointer-events-none select-none" />
+      <div className="absolute bottom-0 left-10 w-[300px] h-[300px] bg-muted-foreground/5 rounded-full blur-[100px] pointer-events-none select-none" />
+
       <div className="container mx-auto max-w-5xl relative z-10">
         
-        {/* Header Block */}
-        <div className="text-left max-w-xl mb-20">
-          <div className="inline-flex items-center gap-2 text-primary font-mono text-sm tracking-widest uppercase mb-3">
-            <MessageSquare className="w-4 h-4" /> Connection Portal
+        {/* ── HEADER BLOCK ── */}
+        <div className="text-left max-w-2xl mb-24">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-secondary/30 backdrop-blur-md text-[11px] font-mono tracking-widest text-primary uppercase mb-4 animate-pulse">
+            <MessageSquare className="w-3.5 h-3.5" /> Connection Portal
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-            Let's Build <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Together</span>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight text-foreground font-display leading-none">
+            Let's Build <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/50 bg-clip-text text-transparent italic font-light font-sans">Together</span>
           </h2>
-          <p className="text-muted-foreground text-left text-sm sm:text-base leading-relaxed mt-4">
-            Have a project architectural blueprint in mind or seeking to contract a full-stack deployment? Drop a line below.
+          <p className="text-muted-foreground/90 font-mono text-xs sm:text-sm max-w-lg leading-relaxed mt-4 border-l border-primary/20 pl-4">
+            // Ready to initiate a new project pipeline, scale web infrastructure, or discuss contract availability? Send a direct dispatch.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           
-          {/* Left Panel: Structured Directory */}
-          <div className="lg:col-span-5 space-y-4">
-            {contactMethods.map((method) => (
-              <div
-                key={method.id}
-                className="flex items-center justify-between p-5 rounded-2xl border border-border/50 bg-card/10 backdrop-blur-sm group hover:border-border transition-all duration-300 shadow-sm"
-              >
-                <div className="flex items-center gap-4 text-left">
-                  <div className="p-3 rounded-xl bg-secondary/50 border border-border/40 group-hover:bg-primary/10 group-hover:border-primary/20 transition-all duration-300">
-                    {method.icon}
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-muted-foreground block mb-0.5">
-                      {method.label}
-                    </span>
-                    {method.href ? (
-                      <a
-                        href={method.href}
-                        target={method.id === "github" ? "_blank" : undefined}
-                        rel={method.id === "github" ? "noopener noreferrer" : undefined}
-                        className="text-sm sm:text-base font-semibold text-foreground hover:text-primary transition-colors duration-200"
-                      >
-                        {method.value}
-                      </a>
-                    ) : (
-                      <span className="text-sm sm:text-base font-semibold text-foreground">
-                        {method.value}
+          {/* ── LEFT PANEL: DIRECTORY METRICS ── */}
+          <div className="lg:col-span-5 flex flex-col justify-between gap-4">
+            <div className="space-y-3.5">
+              {contactMethods.map((method) => (
+                <div
+                  key={method.id}
+                  className="flex items-center justify-between p-4 rounded-2xl border border-border/40 bg-card/20 backdrop-blur-sm group hover:border-border/80 hover:bg-card/40 hover:shadow-lg hover:shadow-black/5 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-4 text-left min-w-0">
+                    <div className="p-3 rounded-xl bg-secondary/40 border border-border/50 group-hover:bg-primary/10 group-hover:border-primary/30 group-hover:scale-105 transition-all duration-300 shrink-0">
+                      {method.icon}
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground/60 uppercase block mb-0.5">
+                        {method.label}
                       </span>
-                    )}
+                      {method.href ? (
+                        <a
+                          href={method.href}
+                          target={method.id === "github" ? "_blank" : undefined}
+                          rel={method.id === "github" ? "noopener noreferrer" : undefined}
+                          className="text-sm font-bold text-foreground hover:text-primary tracking-tight block truncate transition-colors duration-200"
+                        >
+                          {method.value}
+                        </a>
+                      ) : (
+                        <span className="text-sm font-bold text-foreground tracking-tight block truncate">
+                          {method.value}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                {/* Interactive Clipboard Functionality */}
-                {method.actionable && (
-                  <button
-                    onClick={() => handleCopy(method.id, method.value)}
-                    className="p-2 rounded-lg hover:bg-secondary/80 border border-transparent hover:border-border text-muted-foreground hover:text-foreground transition-all duration-200"
-                    title={`Copy ${method.id}`}
-                  >
-                    {copiedId === method.id ? (
-                      <Check className="w-4 h-4 text-emerald-500 animate-in fade-in zoom-in-75 duration-200" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                  </button>
-                )}
+                  {/* Interactive Clipboard Functionality */}
+                  {method.actionable && (
+                    <button
+                      onClick={() => handleCopy(method.id, method.value)}
+                      className="p-2 rounded-xl bg-secondary/0 hover:bg-secondary/60 border border-transparent hover:border-border/50 text-muted-foreground/60 hover:text-foreground transition-all duration-200 shrink-0 shadow-sm"
+                      title={`Copy ${method.id}`}
+                    >
+                      {copiedId === method.id ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-500 animate-in fade-in zoom-in-75 duration-200" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Quick Status Subcard */}
+            <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5 font-mono text-[11px] text-primary/80 text-left flex items-start gap-3 mt-4 lg:mt-0">
+              <Sparkles className="w-4 h-4 shrink-0 text-primary animate-spin-[spin_4s_linear_infinite]" />
+              <div>
+                <span className="font-bold text-primary block mb-0.5 uppercase tracking-wide">Availability Core</span>
+                Now open for select contract roles, freelance development sprint applications, and hybrid systems architecture work.
               </div>
-            ))}
+            </div>
           </div>
 
-          {/* Right Panel: Clean Communications Form */}
+          {/* ── RIGHT PANEL: TRANSACTIONAL CORE FORM ── */}
           <div className="lg:col-span-7">
-            <div className="relative p-6 sm:p-8 rounded-2xl border border-border/60 bg-card/5 backdrop-blur-md shadow-md">
+            <div className="relative p-6 sm:p-8 rounded-3xl border border-border/40 bg-card/20 backdrop-blur-md shadow-xl shadow-black/5">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
                 {/* Floating Input Field: Name */}
@@ -168,18 +183,18 @@ export const ContactSection = () => {
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     placeholder=" "
-                    className="w-full bg-secondary/20 border border-border/50 rounded-xl px-4 py-3.5 text-foreground text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all duration-200 peer placeholder-shown:scale-100"
+                    className="w-full bg-secondary/20 border border-border/50 rounded-xl px-4 py-4 text-foreground text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all duration-300 peer placeholder-shown:scale-100"
                   />
                   <label
                     htmlFor="name"
-                    className="absolute text-sm text-muted-foreground left-4 top-3.5 pointer-events-none transition-all duration-200 origin-[0]
+                    className="absolute text-xs font-mono font-medium tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                    peer-focus:scale-75 peer-focus:-translate-y-7 peer-focus:text-primary"
+                    peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-primary"
                     style={{
-                      transform: formState.name ? "translateY(-1.75rem) scale(0.75)" : ""
+                      transform: formState.name ? "translateY(-2rem) scale(0.75)" : ""
                     }}
                   >
-                    Your Name
+                    IDENTIFIER (YOUR NAME)
                   </label>
                 </div>
 
@@ -193,18 +208,18 @@ export const ContactSection = () => {
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                     placeholder=" "
-                    className="w-full bg-secondary/20 border border-border/50 rounded-xl px-4 py-3.5 text-foreground text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all duration-200 peer"
+                    className="w-full bg-secondary/20 border border-border/50 rounded-xl px-4 py-4 text-foreground text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all duration-300 peer"
                   />
                   <label
                     htmlFor="email"
-                    className="absolute text-sm text-muted-foreground left-4 top-3.5 pointer-events-none transition-all duration-200 origin-[0]
+                    className="absolute text-xs font-mono font-medium tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                    peer-focus:scale-75 peer-focus:-translate-y-7 peer-focus:text-primary"
+                    peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-primary"
                     style={{
-                      transform: formState.email ? "translateY(-1.75rem) scale(0.75)" : ""
+                      transform: formState.email ? "translateY(-2rem) scale(0.75)" : ""
                     }}
                   >
-                    Email Address
+                    ROUTING ENDPOINT (EMAIL ADDRESS)
                   </label>
                 </div>
 
@@ -218,32 +233,32 @@ export const ContactSection = () => {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder=" "
-                    className="w-full bg-secondary/20 border border-border/50 rounded-xl px-4 py-3.5 text-foreground text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all duration-200 peer resize-none"
+                    className="w-full bg-secondary/20 border border-border/50 rounded-xl px-4 py-4 text-foreground text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all duration-300 peer resize-none"
                   />
                   <label
                     htmlFor="message"
-                    className="absolute text-sm text-muted-foreground left-4 top-3.5 pointer-events-none transition-all duration-200 origin-[0]
+                    className="absolute text-xs font-mono font-medium tracking-wide text-muted-foreground left-4 top-4 pointer-events-none transition-all duration-300 origin-[0]
                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                    peer-focus:scale-75 peer-focus:-translate-y-7 peer-focus:text-primary"
+                    peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-primary"
                     style={{
-                      transform: formState.message ? "translateY(-1.75rem) scale(0.75)" : ""
+                      transform: formState.message ? "translateY(-2rem) scale(0.75)" : ""
                     }}
                   >
-                    Project Context or Message
+                    PROJECT BREAKDOWN / CONTEXT
                   </label>
                 </div>
 
                 {/* Submit Trigger Actions Wrapper */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-2">
                   <div className="h-6 w-full text-left overflow-hidden">
                     {isSubmitted && (
-                      <div className="flex items-center gap-2 text-emerald-500 font-medium text-sm animate-in fade-in slide-in-from-left-2 duration-300">
+                      <div className="flex items-center gap-2 text-emerald-500 font-mono font-semibold text-xs tracking-wide animate-in fade-in slide-in-from-left-2 duration-300">
                         <CheckCircle2 className="w-4 h-4 shrink-0" />
-                        Message transmitted successfully!
+                        DISPATCH TRANSMITTED SUCCESSFULLY.
                       </div>
                     )}
                     {errorMessage && (
-                      <div className="text-destructive font-medium text-sm animate-in fade-in slide-in-from-left-2 duration-300">
+                      <div className="text-destructive font-mono font-semibold text-xs tracking-wide animate-in fade-in slide-in-from-left-2 duration-300">
                         {errorMessage}
                       </div>
                     )}
@@ -252,14 +267,14 @@ export const ContactSection = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-sm font-semibold bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-xl shadow-sm transition-all duration-200 disabled:opacity-50 group min-w-[140px]"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 text-xs font-bold bg-primary hover:bg-primary/95 text-primary-foreground px-6 py-3.5 rounded-xl shadow-md hover:shadow-lg hover:shadow-primary/10 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 group min-w-[160px] tracking-wider uppercase font-mono"
                   >
                     {isSubmitting ? (
-                      <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                     ) : (
                       <>
                         Dispatch Message
-                        <Send className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <Send className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </>
                     )}
                   </button>

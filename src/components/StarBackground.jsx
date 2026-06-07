@@ -1,42 +1,52 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export const StarBackground = () => {
-  const [stars, setStars] = useState([]);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
+    // 1. HARD GUARD: If it's a mobile viewport, skip canvas entirely to save processing power
+    if (window.innerWidth < 768) return;
 
-    const numberOfStars = isMobile ? 40 : 120;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
 
-    const newStars = Array.from({ length: numberOfStars }).map((_, i) => ({
-      id: i,
+    // Fit canvas exactly to window sizing
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // 2. Generate star configurations in memory (No DOM elements created!)
+    const numberOfStars = 120;
+    const stars = Array.from({ length: numberOfStars }).map(() => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
       size: Math.random() * 2 + 1,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
       opacity: Math.random() * 0.4 + 0.3,
     }));
 
-    setStars(newStars);
+    // 3. Clean GPU Paint Pass
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach((star) => {
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size, 0, Math.random() * 2 * Math.PI);
+      ctx.fill();
+    });
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Mobile gets a totally blank wrapper; desktop gets the hardware-accelerated canvas
+  if (window.innerWidth < 768) return null;
+
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="star"
-          style={{
-            width: star.size + "px",
-            height: star.size + "px",
-            left: star.x + "%",
-            top: star.y + "%",
-            opacity: star.opacity,
-            position: "absolute",
-            backgroundColor: "white",
-            borderRadius: "50%",
-          }}
-        />
-      ))}
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full pointer-events-none z-0 bg-transparent"
+    />
   );
 };
