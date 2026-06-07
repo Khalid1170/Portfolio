@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Layers, CheckCircle2, ChevronLeft, ChevronRight, X } from "lucide-react";
+import {
+  ExternalLink,
+  Layers,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Code2,
+} from "lucide-react";
 
 const projects = [
   {
@@ -9,16 +16,14 @@ const projects = [
     status: "development",
     liveUrl: "https://tagmycar-9ndc.vercel.app/",
     tagline: "Automotive Marketplace & Physical-to-Digital Sales Engine",
-    description: "A hybrid automotive marketplace bridging physical environments with online listings. The platform generates dynamic QR codes for vehicles, allowing passing buyers to instantly view comprehensive spec sheets, pricing, and history while listing the car simultaneously on a centralized public marketplace.",
+    description:
+      "A hybrid automotive marketplace bridging physical environments with online listings through an intuitive dashboard and secure transaction flows.",
     bulletPoints: [
       "Instant physical-to-digital lead generation via custom QR indexing",
-      "Centralized peer-to-peer automotive marketplace",
-      "Real-time listing management and fluid consumer dashboards"
+      "Centralized peer-to-peer automotive marketplace architecture",
+      "Real-time listing management and fluid consumer dashboards",
     ],
-    images: [
-      "/tagmycar.png",
-      
-    ]
+    images: ["/tagmycar.png"],
   },
   {
     id: "sitetailor",
@@ -26,15 +31,14 @@ const projects = [
     status: "production",
     liveUrl: "https://bwk-mq43.vercel.app/",
     tagline: "Bespoke Web Development & Managed Digital Solutions",
-    description: "A modern digital agency model delivering custom web architecture, complete digital transformations, and high-performance brand redesigns. Features an integrated recurring subscription framework providing businesses with dedicated monthly structural updates and continuous optimization.",
+    description:
+      "A modern digital agency model delivering custom web architecture, hyper-optimized performance metrics, and responsive multi-platform designs.",
     bulletPoints: [
       "End-to-end frontend and backend corporate web tailoring",
       "Fixed-rate monthly maintenance and priority iteration pipelines",
-      "Optimized performance scaling for localized and enterprise brands"
+      "Optimized performance scaling for localized and enterprise brands",
     ],
-    images: [
-      "/sitetailor.png"
-    ]
+    images: ["/sitetailor.png"],
   },
   {
     id: "homehelp",
@@ -42,155 +46,131 @@ const projects = [
     status: "development",
     liveUrl: "https://homehelp.vercel.app/",
     tagline: "On-Demand Hyperlocal Task Marketplace",
-    description: "A two-sided freelance service marketplace connecting residential property clients with flexible workforce options. The engine pairs everyday home tasks with verified local students seeking part-time income or certified tradespeople looking to capture secondary off-hour contract pipelines.",
+    description:
+      "A two-sided freelance service marketplace connecting residential clients with fully vetted independent service professionals in real-time.",
     bulletPoints: [
-      "Diverse fulfillment tags: Furniture Assembly, Deep Cleaning, and Landscaping",
-      "Asymmetric marketplace mechanics balancing standard rates with trade experts",
-      "Responsive service booking portals built for real-time customer dispatch"
+      "Diverse fulfillment tags: Furniture Assembly, Deep Cleaning",
+      "Marketplace balancing standard rates with trade experts",
+      "Real-time booking and autonomous dispatch system",
     ],
-    images: [
-      "/homehelp.png",
-      "/dashboardhh.png",
-      "/inboxhh.png"
-    ]
-  }
+    images: ["/homehelp.png", "/dashboardhh.png", "/inboxhh.png"],
+  },
 ];
 
 export const WorkSection = () => {
-  const [imageIndices, setImageIndices] = useState({
-    tagmycar: 0,
-    sitetailor: 0,
-    homehelp: 0,
+  const [activeImage, setActiveImage] = useState({});
+  const [lightbox, setLightbox] = useState({
+    open: false,
+    projectId: null,
+    index: 0,
   });
 
-  // Track active project and image index inside lightbox
-  const [lightbox, setLightbox] = useState({ isOpen: false, projectId: null, index: 0 });
+  const activeProject = projects.find((p) => p.id === lightbox.projectId);
+  const getIndex = (id) => activeImage[id] || 0;
 
-  const handleImageSelect = (projectId, index) => {
-    setImageIndices((prev) => ({ ...prev, [projectId]: index }));
+  const setIndex = (id, index) => {
+    setActiveImage((prev) => ({ ...prev, [id]: index }));
   };
 
-  const handlePrevSlide = (e, project) => {
+  const changeImage = (project, dir, e) => {
     e.stopPropagation();
-    const currentIndex = imageIndices[project.id] || 0;
-    const nextIndex = currentIndex === 0 ? project.images.length - 1 : currentIndex - 1;
-    handleImageSelect(project.id, nextIndex);
+    const current = getIndex(project.id);
+    const max = project.images.length;
+    const next = dir === "next" ? (current + 1) % max : (current - 1 + max) % max;
+    setIndex(project.id, next);
   };
 
-  const handleNextSlide = (e, project) => {
+  const openLightbox = (project, index) => {
+    setLightbox({ open: true, projectId: project.id, index });
+  };
+
+  const closeLightbox = () => {
+    setLightbox({ open: false, projectId: null, index: 0 });
+  };
+
+  const navigateLightbox = (dir, e) => {
     e.stopPropagation();
-    const currentIndex = imageIndices[project.id] || 0;
-    const nextIndex = currentIndex === project.images.length - 1 ? 0 : currentIndex + 1;
-    handleImageSelect(project.id, nextIndex);
-  };
-
-  // Lightbox Navigation Logic
-  const activeLightboxProject = projects.find((p) => p.id === lightbox.projectId);
-
-  const handleLightboxNext = () => {
-    if (!activeLightboxProject) return;
-    setLightbox((prev) => ({
-      ...prev,
-      index: prev.index === activeLightboxProject.images.length - 1 ? 0 : prev.index + 1,
+    if (!activeProject) return;
+    const max = activeProject.images.length;
+    setLightbox((p) => ({
+      ...p,
+      index: dir === "next" ? (p.index + 1) % max : (p.index - 1 + max) % max,
     }));
   };
 
-  const handleLightboxPrev = () => {
-    if (!activeLightboxProject) return;
-    setLightbox((prev) => ({
-      ...prev,
-      index: prev.index === 0 ? activeLightboxProject.images.length - 1 : prev.index - 1,
-    }));
-  };
-
-  const handleDragEnd = (event, info) => {
-    if (info.offset.x < -50) {
-      handleLightboxNext();
-    } else if (info.offset.x > 50) {
-      handleLightboxPrev();
-    }
-  };
-
-  // Lock scroll when global view overlay is active
   useEffect(() => {
-    if (lightbox.isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [lightbox.isOpen]);
+    document.body.style.overflow = lightbox.open ? "hidden" : "unset";
+    return () => { document.body.style.overflow = "unset"; };
+  }, [lightbox.open]);
 
   return (
-    <section id="project" className="py-32 px-4 relative bg-transparent overflow-hidden">
-      <div className="container mx-auto max-w-5xl relative z-10">
+    <section id="project" className="py-32 px-4 relative overflow-hidden bg-background text-foreground">
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div className="container mx-auto max-w-6xl relative z-10">
         
-        {/* Header Block */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
-          <div className="text-left max-w-xl">
-            <div className="inline-flex items-center gap-2 text-primary font-mono text-sm tracking-widest uppercase mb-3">
-              <Layers className="w-4 h-4" /> Selected Production Output
+        {/* HEADER SECTION */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-6 tracking-tight">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-medium uppercase tracking-wider">
+              <Layers className="w-3.5 h-3.5" />
+              Selected Engineering Output
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-              Featured <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Projects</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+              Featured <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Projects</span>
             </h2>
           </div>
-          <p className="text-muted-foreground text-left max-w-sm text-sm sm:text-base leading-relaxed">
-            A meticulous showcase of full-stack web architectures, production deployments, and commercial client systems.
+          <p className="text-muted-foreground max-w-sm text-base leading-relaxed border-l-2 border-border pl-4">
+            Production-grade systems, clean architectural patterns, and tailored full-stack builds.
           </p>
         </div>
 
-        {/* Project Deck Layout */}
-        <div className="space-y-24">
-          {projects.map((project, projectIdx) => {
-            const currentImgIndex = imageIndices[project.id] || 0;
-            const currentImageUrl = project.images[currentImgIndex];
+        {/* PROJECTS CONTAINER */}
+        <div className="space-y-32">
+          {projects.map((project, i) => {
+            const index = getIndex(project.id);
+            const image = project.images[index];
+            const isEven = i % 2 === 0;
 
             return (
-              <motion.div
+              <div
                 key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, delay: projectIdx * 0.1 }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center border-b border-border/40 pb-20 last:border-0 last:pb-0"
+                className="grid lg:grid-cols-12 gap-12 items-center group relative"
               >
-                
-                {/* Content Panel */}
-                <div className="lg:col-span-5 flex flex-col space-y-5 text-left order-2 lg:order-1">
-                  <div>
+                {/* TEXT CONTENT COLUMN */}
+                <div className={`lg:col-span-5 space-y-6 order-2 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="text-2xl font-bold tracking-tight text-foreground">
+                      <h3 className="text-3xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
                         {project.title}
                       </h3>
-                      
-                      {project.status === "development" && (
-                        <span className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-500 dark:text-amber-400 px-2.5 py-0.5 rounded-md text-[11px] font-semibold tracking-wide backdrop-blur-md shadow-xs">
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
-                          </span>
-                          Under Construction
+                      {project.status === "development" ? (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                          In Development
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                          Production Live
                         </span>
                       )}
                     </div>
-                    
-                    <p className="text-primary font-medium text-sm mt-1 tracking-wide">
+                    <p className="text-primary font-medium text-base tracking-wide">
                       {project.tagline}
                     </p>
                   </div>
 
-                  <p className="text-muted-foreground/90 font-normal text-sm sm:text-base leading-relaxed">
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {project.description}
                   </p>
 
-                  <ul className="space-y-2.5 pt-2">
-                    {project.bulletPoints.map((point, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/80 font-medium">
+                  <ul className="space-y-3 pt-2">
+                    {project.bulletPoints.map((b, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm text-muted-foreground">
                         <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                        <span>{point}</span>
+                        <span>{b}</span>
                       </li>
                     ))}
                   </ul>
@@ -200,165 +180,126 @@ export const WorkSection = () => {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-semibold bg-secondary/80 hover:bg-secondary border border-border px-5 py-2.5 rounded-xl text-foreground hover:text-primary transition-all duration-300 shadow-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium text-sm border border-border/60 shadow-sm transition-all duration-200 hover:-translate-y-0.5"
                     >
-                      Launch Live Application
-                      <ExternalLink className="w-4 h-4" />
+                      Explore Application 
+                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
                     </a>
                   </div>
                 </div>
 
-                {/* Picture Slide Stage Panel */}
-                <div className="lg:col-span-7 flex flex-col space-y-3 order-1 lg:order-2 w-full">
-                  
-                  {/* Thumbnail Container (Full Screenshot Viewports Fixed Here) */}
-                  <div 
-                    onClick={() => setLightbox({ isOpen: true, projectId: project.id, index: currentImgIndex })}
-                    className="relative  w-full rounded-3xl border border-border/60  backdrop-blur-sm overflow-hidden group shadow-md cursor-zoom-in"
-                  >
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={currentImgIndex}
-                        src={currentImageUrl}
-                        alt={`${project.title} View ${currentImgIndex + 1}`}
-                        // Changed object-cover to object-contain + object-top to fully show screenshots without crops
-                        className="w-full h-full object-contain object-top p-2 transition-transform duration-500 group-hover:scale-[1.01]"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                {/* VISUAL / INTERACTIVE MEDIA COLUMN */}
+                <div className={`lg:col-span-7 order-1 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <div className="relative group/media rounded-2xl border bg-secondary/10 backdrop-blur-md p-2 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/30">
+                    
+                    {/* Browser Mockup Top Bar UI */}
+                    <div className="flex items-center justify-between px-3 pb-2 pt-1 border-b border-border/40 mb-2">
+                      <div className="flex gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-destructive/40" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-500/40" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
+                      </div>
+                      <div className="bg-background/60 text-[10px] text-muted-foreground px-6 py-0.5 rounded-md border border-border/40 select-none flex items-center gap-1 truncate max-w-[180px]">
+                        <Code2 className="w-2.5 h-2.5 shrink-0" /> {project.id}.app
+                      </div>
+                      <div className="w-12" />
+                    </div>
+
+                    {/* Image Stage Container */}
+                    <div 
+                      onClick={() => openLightbox(project, index)}
+                      className="relative overflow-hidden rounded-xl cursor-zoom-in aspect-[16/10] bg-background flex items-center justify-center"
+                    >
+                      <img
+                        src={image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover/media:scale-[1.02]"
                       />
-                    </AnimatePresence>
 
-                    {project.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={(e) => handlePrevSlide(e, project)}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-background/80 border border-border/40 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md backdrop-blur-md z-20"
-                          aria-label="Previous screenshot"
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                          onClick={(e) => handleNextSlide(e, project)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-background/80 border border-border/40 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md backdrop-blur-md z-20"
-                          aria-label="Next screenshot"
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </button>
-                      </>
-                    )}
+                      {/* Image Carousels Overlay Navigation Controls */}
+                      {project.images.length > 1 && (
+                        <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between opacity-0 group-hover/media:opacity-100 transition-opacity duration-300 pointer-events-none">
+                          <button
+                            onClick={(e) => changeImage(project, "prev", e)}
+                            className="p-2 rounded-full bg-background/80 hover:bg-background backdrop-blur-md border shadow-md text-foreground pointer-events-auto transform transition hover:scale-110 active:scale-95"
+                          >
+                            <ChevronLeft className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={(e) => changeImage(project, "next", e)}
+                            className="p-2 rounded-full bg-background/80 hover:bg-background backdrop-blur-md border shadow-md text-foreground pointer-events-auto transform transition hover:scale-110 active:scale-95"
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
 
-                    <div className="absolute top-3 right-3 bg-background/80 backdrop-blur-md px-3 py-1 rounded-lg border border-border/40 text-[11px] font-mono font-semibold text-muted-foreground shadow-sm z-20">
-                      {currentImgIndex + 1} / {project.images.length}
+                      {/* Floating Indicator Dots */}
+                      {project.images.length > 1 && (
+                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-2 py-1.5 rounded-full bg-black/40 backdrop-blur-sm">
+                          {project.images.map((_, dotIdx) => (
+                            <span 
+                              key={dotIdx}
+                              className={`h-1.5 rounded-full transition-all duration-300 ${dotIdx === index ? "w-4 bg-primary" : "w-1.5 bg-white/40"}`}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  {/* Interactive Carousel Pill Tabs */}
-                  {project.images.length > 1 && (
-                    <div className="flex items-center gap-2 justify-end pt-1">
-                      {project.images.map((_, dotIdx) => (
-                        <button
-                          key={dotIdx}
-                          onClick={() => handleImageSelect(project.id, dotIdx)}
-                          className={`h-2.5 rounded-full transition-all duration-300 relative ${
-                            currentImgIndex === dotIdx ? "w-8 bg-primary" : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                          }`}
-                          aria-label={`Go to slide ${dotIdx + 1}`}
-                        >
-                          {currentImgIndex === dotIdx && (
-                            <motion.span
-                              layoutId={`activeDot-${project.id}`}
-                              className="absolute inset-0 bg-primary rounded-full"
-                              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                            />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  )}
                 </div>
 
-              </motion.div>
+              </div>
             );
           })}
         </div>
       </div>
 
-      {/* Expanded Swipe Carousel Lightbox Modal */}
-      <AnimatePresence>
-        {lightbox.isOpen && activeLightboxProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setLightbox({ isOpen: false, projectId: null, index: 0 })}
-            className="fixed inset-0 bg-background/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center p-4 md:p-12 cursor-zoom-out select-none"
+      {/* FULLSCREEN LIGHTBOX OVERLAY */}
+      {lightbox.open && activeProject && (
+        <div
+          className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={closeLightbox}
+        >
+          <button
+            onClick={closeLightbox}
+            className="absolute top-6 right-6 p-2 rounded-full bg-white/5 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
           >
-            {/* Close Layout Anchor */}
+            <X className="w-6 h-6" />
+          </button>
+
+          {activeProject.images.length > 1 && (
             <button 
-              onClick={() => setLightbox({ isOpen: false, projectId: null, index: 0 })}
-              className="absolute top-6 right-6 p-2.5 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-foreground transition-all duration-200 z-50 hover:scale-105"
+              onClick={(e) => navigateLightbox("prev", e)} 
+              className="absolute left-6 p-3 rounded-full bg-white/5 text-white/70 hover:text-white hover:bg-white/10 transition-all border border-white/10"
             >
-              <X className="w-5 h-5" />
+              <ChevronLeft className="w-6 h-6" />
             </button>
+          )}
 
-            {/* Lightbox Main Stage Container */}
-            <div className="relative w-full max-w-6xl h-[75vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-              
-              {/* Carousel Left Arrow */}
-              {activeLightboxProject.images.length > 1 && (
-                <button
-                  onClick={handleLightboxPrev}
-                  className="absolute left-0 lg:-left-16 top-1/2 -translate-y-1/2 p-3 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-foreground hover:text-primary transition-all duration-200 z-50 shadow-lg backdrop-blur-md"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-              )}
+          <div className="max-w-[90vw] max-h-[85vh] p-2 relative" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={activeProject.images[lightbox.index]}
+              alt={activeProject.title}
+              className="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl border border-white/5"
+            />
+            {activeProject.images.length > 1 && (
+              <p className="text-center text-xs text-white/40 mt-4 tracking-wider">
+                IMAGE {lightbox.index + 1} OF {activeProject.images.length}
+              </p>
+            )}
+          </div>
 
-              {/* Swipe/Drag Wrapper Frame */}
-              <div className="w-full h-full overflow-hidden flex items-center justify-center relative rounded-2xl border border-border/40 bg-card/40">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={lightbox.index}
-                    src={activeLightboxProject.images[lightbox.index]}
-                    alt="Expanded blueprint preview"
-                    className="w-full h-full object-contain max-h-[70vh] p-4 cursor-grab active:cursor-grabbing"
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.6}
-                    onDragEnd={handleDragEnd}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ type: "spring", damping: 28, stiffness: 220 }}
-                  />
-                </AnimatePresence>
-              </div>
-
-              {/* Carousel Right Arrow */}
-              {activeLightboxProject.images.length > 1 && (
-                <button
-                  onClick={handleLightboxNext}
-                  className="absolute right-0 lg:-right-16 top-1/2 -translate-y-1/2 p-3 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-foreground hover:text-primary transition-all duration-200 z-50 shadow-lg backdrop-blur-md"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              )}
-            </div>
-
-            {/* Bottom Status Tracking Badge */}
-            <div className="mt-6 flex flex-col items-center gap-2">
-              <span className="text-sm font-semibold tracking-wide text-foreground">
-                {activeLightboxProject.title}
-              </span>
-              <span className="text-xs font-mono text-muted-foreground bg-secondary/60 border border-border/50 px-3 py-1 rounded-full">
-                Index {lightbox.index + 1} of {activeLightboxProject.images.length}
-              </span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {activeProject.images.length > 1 && (
+            <button 
+              onClick={(e) => navigateLightbox("next", e)} 
+              className="absolute right-6 p-3 rounded-full bg-white/5 text-white/70 hover:text-white hover:bg-white/10 transition-all border border-white/10"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
+        </div>
+      )}
     </section>
   );
 };

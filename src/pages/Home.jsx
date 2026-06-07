@@ -4,36 +4,42 @@ import { HeroSection } from "../components/HeroSection.jsx";
 import { Navbar } from "../components/Navbar";
 import { SkillsSection } from "../components/SkillsSection.jsx";
 import { StarBackground } from "../components/StarBackground";
-import { ThemeToggle } from "../components/ThemeToggle";
 import { WorkSection } from "../components/Work.jsx";
 
-
 export const Home = () => {
-    return(
-    
-    <div className ="min-h-screen bg-background text-foreground overflow-x-hidden ">
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
 
-    {/* Theme Toggle*/}
-    {/* <ThemeToggle /> */}
-    {/* Background Effects*/}
-    < StarBackground />
-    {/* Navbar */}
-    <Navbar />
-    {/* Main Content */}
+      {/* Background */}
+      <StarBackground />
 
-    <main>
-    <HeroSection />
-    <WorkSection />
+      {/* Navbar */}
+      <Navbar />
 
+      {/* Main Content */}
+      <main className="space-y-24">
 
-    <AboutMe />
-    < SkillsSection />
-    <ContactSection />
+        <div className="fade-in-up">
+          <HeroSection />
+        </div>
 
-    </main>
-    {/* Footer */}
-    
+        <div className="fade-in-up delay-1">
+          <WorkSection />
+        </div>
+
+        <div className="fade-in-up delay-2">
+          <AboutMe />
+        </div>
+
+        <div className="fade-in-up delay-3">
+          <SkillsSection />
+        </div>
+
+        <div className="fade-in-up delay-4">
+          <ContactSection />
+        </div>
+
+      </main>
     </div>
-
-    );
+  );
 };

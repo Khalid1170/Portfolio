@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { 
   Code2, 
@@ -69,76 +68,64 @@ export const SkillsSection = () => {
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
                 className={cn(
-                  "relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 capitalize",
+                  "relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 capitalize z-10",
                   isActive 
-                    ? "text-primary-foreground shadow-sm" 
+                    ? "bg-primary text-primary-foreground shadow-sm" 
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 bg-primary rounded-xl"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <Icon className="w-4 h-4 relative z-10" />
-                <span className="relative z-10">{category.label}</span>
+                <Icon className="w-4 h-4" />
+                <span>{category.label}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Animated Skills Grid */}
-        <motion.div 
-          layout
+        {/* Skills Grid - Key reset forces progress bar re-animation on toggle */}
+        <div 
+          key={activeCategory} 
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.92 }}
-                transition={{ duration: 0.25 }}
-                key={skill.name}
-                className="group relative bg-card/60 backdrop-blur-md p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                {/* Top highlight line on hover */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/0 via-primary/40 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-lg bg-secondary/80 group-hover:bg-primary/10 group-hover:text-primary transition-colors duration-300">
-                      <Cpu className="w-4 h-4 opacity-70 group-hover:opacity-100" />
-                    </div>
-                    <h3 className="font-semibold text-base tracking-tight text-card-foreground">
-                      {skill.name}
-                    </h3>
+          {filteredSkills.map((skill) => (
+            <div
+              key={skill.name}
+              className="fade-in group relative bg-card/60 backdrop-blur-md p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              style={{ animationDuration: '0.4s' }}
+            >
+              {/* Top highlight line on hover */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/0 via-primary/40 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="flex justify-between items-center mb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-lg bg-secondary/80 group-hover:bg-primary/10 group-hover:text-primary transition-colors duration-300">
+                    <Cpu className="w-4 h-4 opacity-70 group-hover:opacity-100" />
                   </div>
-                  <span className="text-xs font-mono font-semibold text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-md border border-border/30">
-                    {skill.level}%
-                  </span>
+                  <h3 className="font-semibold text-base tracking-tight text-card-foreground">
+                    {skill.name}
+                  </h3>
                 </div>
+                <span className="text-xs font-mono font-semibold text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-md border border-border/30">
+                  {skill.level}%
+                </span>
+              </div>
 
-                {/* Progress Bar Track */}
-                <div className="w-full bg-secondary/60 h-2 rounded-full overflow-hidden relative">
-                  {/* Progress Bar Fill */}
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${skill.level}%` }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="h-full rounded-full bg-gradient-to-r from-primary via-primary to-primary/80 relative"
-                  >
-                    {/* Subtle pulse reflection effect on fill */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2.5s_infinite]" />
-                  </motion.div>
+              {/* Progress Bar Track */}
+              <div className="w-full bg-secondary/60 h-2 rounded-full overflow-hidden relative">
+                {/* Progress Bar Fill using Inline Style for custom dynamic widths */}
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-primary via-primary to-primary/80 relative origin-left animate-grow-width"
+                  style={{ 
+                    width: `${skill.level}%`,
+                    '--target-width': `${skill.level}%` 
+                  }}
+                >
+                  {/* Subtle pulse reflection effect on fill */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2.5s_infinite]" />
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

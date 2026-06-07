@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, User, Send, CheckCircle2, MessageSquare, Copy, Check, Github } from "lucide-react";
 
 export const ContactSection = () => {
@@ -23,7 +22,7 @@ export const ContactSection = () => {
       label: "Open Source Blueprint",
       value: "github.com/khalid1170",
       href: "https://github.com/khalid1170",
-      actionable: false, // Set to true if you want users to copy the handle string instead
+      actionable: false,
     },
     {
       id: "phone",
@@ -73,7 +72,6 @@ export const ContactSection = () => {
       if (response.ok) {
         setIsSubmitted(true);
         setFormState({ name: "", email: "", message: "" });
-        // Hide success message after 4 seconds
         setTimeout(() => setIsSubmitted(false), 4000);
       } else {
         const data = await response.json();
@@ -145,7 +143,7 @@ export const ContactSection = () => {
                     title={`Copy ${method.id}`}
                   >
                     {copiedId === method.id ? (
-                      <Check className="w-4 h-4 text-emerald-500 animate-scale-in" />
+                      <Check className="w-4 h-4 text-emerald-500 animate-in fade-in zoom-in-75 duration-200" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -237,30 +235,18 @@ export const ContactSection = () => {
 
                 {/* Submit Trigger Actions Wrapper */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                  <div className="h-6 w-full text-left">
-                    <AnimatePresence mode="wait">
-                      {isSubmitted && (
-                        <motion.div
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 10 }}
-                          className="flex items-center gap-2 text-emerald-500 font-medium text-sm"
-                        >
-                          <CheckCircle2 className="w-4 h-4 shrink-0" />
-                          Message transmitted successfully!
-                        </motion.div>
-                      )}
-                      {errorMessage && (
-                        <motion.div
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 10 }}
-                          className="text-destructive font-medium text-sm"
-                        >
-                          {errorMessage}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                  <div className="h-6 w-full text-left overflow-hidden">
+                    {isSubmitted && (
+                      <div className="flex items-center gap-2 text-emerald-500 font-medium text-sm animate-in fade-in slide-in-from-left-2 duration-300">
+                        <CheckCircle2 className="w-4 h-4 shrink-0" />
+                        Message transmitted successfully!
+                      </div>
+                    )}
+                    {errorMessage && (
+                      <div className="text-destructive font-medium text-sm animate-in fade-in slide-in-from-left-2 duration-300">
+                        {errorMessage}
+                      </div>
+                    )}
                   </div>
 
                   <button
