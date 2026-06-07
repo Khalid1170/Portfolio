@@ -1,43 +1,59 @@
-import { AboutMe } from "../components/AboutMe.jsx";
-import { ContactSection } from "../components/Contact.jsx";
-import { HeroSection } from "../components/HeroSection.jsx";
+import { lazy, Suspense } from "react";
 import { Navbar } from "../components/Navbar";
-import { SkillsSection } from "../components/SkillsSection.jsx";
-import { StarBackground } from "../components/StarBackground";
-import { WorkSection } from "../components/Work.jsx";
+import { HeroSection } from "../components/HeroSection.jsx";
+
+// Code-splitting chunks
+const StarBackground = lazy(() => import("../components/StarBackground").then(m => ({ default: m.StarBackground })));
+const WorkSection = lazy(() => import("../components/Work.jsx").then(m => ({ default: m.WorkSection })));
+const AboutMe = lazy(() => import("../components/AboutMe.jsx").then(m => ({ default: m.AboutMe })));
+const SkillsSection = lazy(() => import("../components/SkillsSection.jsx").then(m => ({ default: m.SkillsSection })));
+const ContactSection = lazy(() => import("../components/Contact.jsx").then(m => ({ default: m.ContactSection })));
 
 export const Home = () => {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
 
-      {/* Background */}
-      <StarBackground />
+      {/* Background canvas runs independently */}
+      <Suspense fallback={null}>
+        <StarBackground />
+      </Suspense>
 
-      {/* Navbar */}
       <Navbar />
 
-      {/* Main Content */}
       <main className="space-y-24">
 
+        {/* 1. Hero: Instant render, no fallback wait */}
         <div className="fade-in-up">
           <HeroSection />
         </div>
 
-        <div className="fade-in-up delay-1">
-          <WorkSection />
-        </div>
+        {/* 2. Work Section: Streams independently */}
+        <Suspense fallback={<div className="min-h-[50vh] bg-transparent" />}>
+          <div className="fade-in-up delay-1">
+            <WorkSection />
+          </div>
+        </Suspense>
 
-        <div className="fade-in-up delay-2">
-          <AboutMe />
-        </div>
+        {/* 3. About Me: Streams independently */}
+        <Suspense fallback={<div className="min-h-[40vh] bg-transparent" />}>
+          <div className="fade-in-up delay-2">
+            <AboutMe />
+          </div>
+        </Suspense>
 
-        <div className="fade-in-up delay-3">
-          <SkillsSection />
-        </div>
+        {/* 4. Skills Section: Streams independently */}
+        <Suspense fallback={<div className="min-h-[30vh] bg-transparent" />}>
+          <div className="fade-in-up delay-3">
+            <SkillsSection />
+          </div>
+        </Suspense>
 
-        <div className="fade-in-up delay-4">
-          <ContactSection />
-        </div>
+        {/* 5. Contact Section: Streams independently */}
+        <Suspense fallback={<div className="min-h-[40vh] bg-transparent" />}>
+          <div className="fade-in-up delay-4">
+            <ContactSection />
+          </div>
+        </Suspense>
 
       </main>
     </div>
