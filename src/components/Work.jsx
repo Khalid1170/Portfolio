@@ -22,7 +22,7 @@ const projects = [
       "Centralized peer-to-peer automotive web marketplace application",
       "Real-time listing management and responsive user dashboards",
     ],
-    images: ["/tagmycar.png"],
+    images: ["/tagmycar.webp"],
   },
   {
     id: "sitetailor",
@@ -37,7 +37,7 @@ const projects = [
       "Fixed-rate monthly maintenance and priority feature development pipelines",
       "Optimized performance scaling for local and enterprise brands",
     ],
-    images: ["/sitetailor.png"],
+    images: ["/sitetailor.webp"],
   },
   {
     id: "homehelp",
@@ -52,7 +52,7 @@ const projects = [
       "Marketplace engine balancing standard rates with trade experts",
       "Real-time booking and autonomous scheduling system",
     ],
-    images: ["/homehelp.png", "/dashboardhh.png", "/inboxhh.png"],
+    images: ["/homehelp.webp", "/dashboardhh.webp", "/inboxhh.webp"],
   },
 ];
 
