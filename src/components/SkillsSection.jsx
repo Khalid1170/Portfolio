@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
+const cn = (...classes) => classes.filter(Boolean).join(" ");
 import { 
   Code2, 
   Terminal, 

@@ -1,4 +1,5 @@
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
+const cn = (...classes) => classes.filter(Boolean).join(" ");
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
