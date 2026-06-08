@@ -6,10 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Khalid | Portfolio</title>
 
-    <!-- Prevent white flash and theme flicker before React loads -->
     <style>
       html { background-color: #080d1a; }
+
+      #initial-loader {
+        position: fixed;
+        inset: 0;
+        background: #080d1a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.4s ease;
+      }
+
+      #initial-loader.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loader-name {
+        font-family: system-ui, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin-bottom: 32px;
+      }
+
+      .loader-name span { color: #a78bfa; }
+
+      .loader-bar-track {
+        width: 160px;
+        height: 2px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .loader-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: #a78bfa;
+        border-radius: 999px;
+        animation: load-progress 2s ease-out forwards;
+      }
+
+      @keyframes load-progress {
+        0%   { width: 0%; }
+        60%  { width: 75%; }
+        85%  { width: 90%; }
+        100% { width: 100%; }
+      }
     </style>
+
     <script>
       const theme = localStorage.getItem("theme");
       if (theme === "light") {
@@ -19,14 +70,18 @@
       }
     </script>
 
-    <!-- Font preconnect (cuts Google Fonts latency) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- DNS prefetch for Vercel deploys -->
     <link rel="dns-prefetch" href="https://vercel.app" />
   </head>
   <body>
+    <div id="initial-loader">
+      <div class="loader-name">Khalid<span>.dev</span></div>
+      <div class="loader-bar-track">
+        <div class="loader-bar-fill"></div>
+      </div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
