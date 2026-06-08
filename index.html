@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Khalid | Portfolio</title>
 
+    <!-- Prevent white flash and theme flicker before React loads -->
+    <style>
+      html { background-color: #080d1a; }
+    </style>
+    <script>
+      const theme = localStorage.getItem("theme");
+      if (theme === "light") {
+        document.documentElement.style.backgroundColor = "#f1f5fb";
+      } else {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+
     <!-- Font preconnect (cuts Google Fonts latency) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
