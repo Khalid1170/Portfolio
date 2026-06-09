@@ -42,7 +42,7 @@ export const Home = () => {
       <main className="space-y-24">
 
         {/* Hero Section paints immediately */}
-        <div className="fade-in-up">
+        <div className="fade-in-up pt-8 md:pt-28">
           <HeroSection />
         </div>
 
