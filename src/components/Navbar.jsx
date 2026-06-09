@@ -1,31 +1,29 @@
-// import { cn } from "@/lib/utils";
 const cn = (...classes) => classes.filter(Boolean).join(" ");
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Moon, Sun, ArrowRight, Github } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { name: "Home", href: "#hero" },
+  { name: "Home",     href: "#hero"    },
   { name: "Projects", href: "#project" },
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "GitHub", href: "#github" },
-  { name: "Contact", href: "#contact" },
+  { name: "About",    href: "#about"   },
+  { name: "Skills",   href: "#skills"  },
+  { name: "GitHub",   href: "#github"  },
+  { name: "Contact",  href: "#contact" },
 ];
 
 export const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isScrolled, setIsScrolled]   = useState(false);
+  const [isMenuOpen, setIsMenuOpen]   = useState(false);
+  const [isDarkMode, setIsDarkMode]   = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
-
     if (stored === "light") {
       setIsDarkMode(false);
       document.documentElement.classList.remove("dark");
@@ -45,135 +43,157 @@ export const Navbar = () => {
     });
   };
 
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
-    <nav
-  className={cn(
-    "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-    isScrolled
-      ? "py-3 bg-background/70 backdrop-blur-xl border-b border-border/40 shadow-sm"
-      : "py-5 bg-gradient-to-b from-background/90 to-transparent" // Changed from bg-transparent
-  )}
->
-      <div className="container mx-auto px-4 flex items-center justify-between">
+    <>
+      <nav
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          isScrolled
+            ? "py-3 bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-sm"
+            : "py-4 bg-gradient-to-b from-background/80 to-transparent"
+        )}
+      >
+        <div className="container mx-auto px-4 flex items-center justify-between">
 
-        {/* Logo */}
-        <a href="#hero" className="text-lg font-bold tracking-tight">
-          <span className="text-foreground">Khalid</span>
-          <span className="text-primary">.dev</span>
-        </a>
+          {/* Logo */}
+          <a
+            href="#hero"
+            className="text-base font-bold tracking-tight flex items-center gap-0.5"
+          >
+            <span className="text-foreground">Khalid</span>
+            <span className="text-primary">.dev</span>
+          </a>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
-          <div className="flex gap-6">
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 px-3 py-1.5 rounded-lg transition-all duration-150"
               >
                 {item.name}
               </a>
             ))}
           </div>
 
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-xl border border-border/40 bg-secondary/20 hover:bg-secondary transition"
-          >
-            {isDarkMode ? (
-              <Sun className="w-4 h-4 text-yellow-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-blue-500" />
-            )}
-          </button>
+          {/* Desktop right */}
+          <div className="hidden md:flex items-center gap-2">
+            <div className="w-px h-4 bg-border/50" />
+            <button
+              onClick={toggleTheme}
+              className="w-8 h-8 flex items-center justify-center rounded-lg border border-border/40 hover:bg-secondary/60 transition"
+              aria-label="Toggle theme"
+            >
+              {isDarkMode
+                ? <Sun className="w-3.5 h-3.5 text-yellow-400" />
+                : <Moon className="w-3.5 h-3.5 text-blue-400" />}
+            </button>
+          </div>
+
+          {/* Mobile controls */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="w-8 h-8 flex items-center justify-center rounded-lg border border-border/40 bg-secondary/20 hover:bg-secondary/60 transition"
+              aria-label="Toggle theme"
+            >
+              {isDarkMode
+                ? <Sun className="w-3.5 h-3.5 text-yellow-400" />
+                : <Moon className="w-3.5 h-3.5 text-blue-400" />}
+            </button>
+
+            <button
+              onClick={() => setIsMenuOpen((v) => !v)}
+              className="w-8 h-8 flex items-center justify-center rounded-lg border border-border/40 bg-secondary/20 hover:bg-secondary/60 transition"
+              aria-label="Toggle menu"
+            >
+              <span className="relative flex flex-col gap-[5px] w-4">
+                <span className={cn("h-px bg-foreground transition-all duration-300 origin-center",
+                  isMenuOpen ? "rotate-45 translate-y-[7px]" : "")} />
+                <span className={cn("h-px bg-foreground transition-all duration-300",
+                  isMenuOpen ? "opacity-0 scale-x-0" : "")} />
+                <span className={cn("h-px bg-foreground transition-all duration-300 origin-center",
+                  isMenuOpen ? "-rotate-45 -translate-y-[7px]" : "")} />
+              </span>
+            </button>
+          </div>
         </div>
+      </nav>
 
-        {/* Mobile controls */}
-        <div className="md:hidden flex items-center gap-3 z-50">
-
-          {/* Theme */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg bg-secondary/30"
-          >
-            {isDarkMode ? (
-              <Sun size={18} className="text-yellow-400" />
-            ) : (
-              <Moon size={18} className="text-blue-500" />
-            )}
-          </button>
-
-          {/* Hamburger */}
-          <button
-            onClick={() => setIsMenuOpen((v) => !v)}
-            className="relative w-10 h-10 flex items-center justify-center"
-            aria-label="Toggle menu"
-          >
-            <div className="relative w-6 h-6">
-              {/* Animated hamburger */}
-              <span
-                className={cn(
-                  "absolute left-0 w-6 h-0.5 bg-foreground transition-all duration-300",
-                  isMenuOpen ? "rotate-45 top-3" : "top-1"
-                )}
-              />
-              <span
-                className={cn(
-                  "absolute left-0 w-6 h-0.5 bg-foreground transition-all duration-300",
-                  isMenuOpen ? "opacity-0" : "top-3"
-                )}
-              />
-              <span
-                className={cn(
-                  "absolute left-0 w-6 h-0.5 bg-foreground transition-all duration-300",
-                  isMenuOpen ? "-rotate-45 top-3" : "top-5"
-                )}
-              />
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
+      {/* Mobile menu overlay */}
       <div
         className={cn(
           "fixed inset-0 z-40 md:hidden transition-all duration-300",
-          isMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+          isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       >
         {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-background/80 backdrop-blur-xl"
-          onClick={() => setIsMenuOpen(false)}
+          className="absolute inset-0 bg-background/60 backdrop-blur-md"
+          onClick={closeMenu}
         />
 
-        {/* Panel */}
+        {/* Slide-in panel */}
         <div
           className={cn(
-            "absolute right-0 top-0 h-full w-3/4 max-w-sm bg-card border-l border-border shadow-xl p-10 flex flex-col gap-8 transition-transform duration-300",
+            "absolute right-0 top-0 h-full w-72 bg-card border-l border-border flex flex-col transition-transform duration-300",
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
         >
-          <div className="flex flex-col gap-6 mt-16 text-lg">
-            {navItems.map((item, i) => (
+          {/* Panel header */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
+            <span className="text-sm font-bold tracking-tight">
+              Khalid<span className="text-primary">.dev</span>
+            </span>
+            <button
+              onClick={closeMenu}
+              className="w-7 h-7 flex items-center justify-center rounded-full border border-border/50 hover:bg-secondary/60 transition text-muted-foreground"
+              aria-label="Close menu"
+            >
+              <span className="text-xs">✕</span>
+            </button>
+          </div>
+
+          {/* Nav items */}
+          <nav className="flex flex-col gap-0.5 p-3 flex-1">
+            {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={cn(
-                  "text-foreground/80 hover:text-primary transition-all",
-                  isMenuOpen && "animate-in fade-in slide-in-from-right",
-                  `delay-${Math.min(i + 1, 4)}`
-                )}
+                onClick={closeMenu}
+                className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all"
               >
                 {item.name}
+                <ArrowRight className="w-3 h-3 text-muted-foreground/30" />
               </a>
             ))}
+          </nav>
+
+          {/* Panel footer */}
+          <div className="p-3 border-t border-border/50 flex gap-2">
+            <a
+              href="https://github.com/Khalid1170"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg border border-border/50 text-xs font-medium text-muted-foreground hover:bg-secondary/50 transition"
+            >
+              <Github className="w-3.5 h-3.5" />
+              GitHub
+            </a>
+            <button
+              onClick={() => { toggleTheme(); }}
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg border border-border/50 text-xs font-medium text-muted-foreground hover:bg-secondary/50 transition"
+            >
+              {isDarkMode
+                ? <><Sun className="w-3.5 h-3.5 text-yellow-400" /> Light</>
+                : <><Moon className="w-3.5 h-3.5 text-blue-400" /> Dark</>}
+            </button>
           </div>
         </div>
       </div>
-    </nav>
+    </>
   );
 };
