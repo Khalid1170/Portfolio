@@ -10,7 +10,7 @@ const AboutMe = lazy(() => import("../components/AboutMe.jsx").then(m => ({ defa
 const SkillsSection = lazy(() => import("../components/SkillsSection.jsx").then(m => ({ default: m.SkillsSection })));
 const ContactSection = lazy(() => import("../components/Contact.jsx").then(m => ({ default: m.ContactSection })));
 const GithubSection = lazy(() =>
-  import("../components/GithubSection.jsx").then(m => ({ default: m.GithubSection }))
+  import("../components/GitHubSection.jsx").then(m => ({ default: m.GithubSection }))
 );
 
 export const Home = () => {
