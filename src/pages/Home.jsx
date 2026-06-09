@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
 import { HeroSection } from "../components/HeroSection.jsx";
+// import { GithubSection } from "../components/GitHubSection.jsx";
 
 // Code-splitting chunks
 const StarBackground = lazy(() => import("../components/StarBackground").then(m => ({ default: m.StarBackground })));
@@ -8,6 +9,9 @@ const WorkSection = lazy(() => import("../components/Work.jsx").then(m => ({ def
 const AboutMe = lazy(() => import("../components/AboutMe.jsx").then(m => ({ default: m.AboutMe })));
 const SkillsSection = lazy(() => import("../components/SkillsSection.jsx").then(m => ({ default: m.SkillsSection })));
 const ContactSection = lazy(() => import("../components/Contact.jsx").then(m => ({ default: m.ContactSection })));
+const GithubSection = lazy(() =>
+  import("../components/GithubSection.jsx").then(m => ({ default: m.GithubSection }))
+);
 
 export const Home = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -57,6 +61,13 @@ export const Home = () => {
         <Suspense fallback={<div className="min-h-[30vh] bg-transparent" />}>
           <div className="fade-in-up delay-3">
             <SkillsSection />
+          </div>
+        </Suspense>
+
+
+              <Suspense fallback={<div className="min-h-[30vh] bg-transparent" />}>
+          <div className="fade-in-up delay-3">
+            <GithubSection/>
           </div>
         </Suspense>
 

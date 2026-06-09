@@ -1,74 +1,117 @@
-import { ArrowDown, Briefcase, FileText, Mail } from "lucide-react";
+import { ArrowDown, Briefcase, Mail, Github } from "lucide-react";
+
+const techStack = ["React", "TypeScript", "Node.js", "Python", "PostgreSQL", "Tailwind CSS"];
 
 export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-[80vh] sm:min-h-screen flex flex-col items-center justify-start sm:justify-center pt-28 pb-30 sm:py-0 px-2 overflow-hidden bg-background"
+      className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden bg-background"
     >
-      {/* Background Tech Mesh & Glows */}
-      <div className="absolute " />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="container max-w-4xl mx-auto text-center z-10 my-auto sm:my-0">
-        <div className="flex flex-col items-center space-y-9 md:space-y-8">
-          
-          {/* Status Badge */}
-          <div className="fade-in-up delay-1">
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide backdrop-blur-md shadow-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              Available for Opportunities
-            </div>
-          </div>
+      <div className="container max-w-3xl mx-auto text-center z-10 flex flex-col items-center gap-0">
 
-          {/* Main Headline */}
-          <h1 className="fade-in-up delay-2 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
-            Hello, I'm <br className="sm:hidden" />
-            <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
-              Khalid Abdi
+        {/* Status badge */}
+        <div className="fade-in-up delay-1 mb-7">
+          <div className="inline-flex items-center gap-2 bg-secondary/50 border border-border/60 px-4 py-1.5 rounded-full text-xs font-medium text-muted-foreground backdrop-blur-sm">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
             </span>
-          </h1>
-
-          {/* Subtitle / Tagline */}
-          <p className="fade-in-up delay-3 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-normal">
-            Full-stack web developer based in Bristol building modern, responsive web applications with React, JavaScript, and Python. I enjoy turning ideas and designs into fully functional, production-ready products with clean, scalable code.
-          </p>
-
-          {/* Call To Action Buttons */}
-          <div className="fade-in-up delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 w-full pt-2">
-            <a
-              href="#project"
-              className="group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-medium px-6 py-3.5 w-full sm:w-auto rounded-xl hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-            >
-              <Briefcase className="w-4 h-4" />
-              View My Work
-            </a>
-            
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center gap-2 bg-secondary/50 border border-border/80 text-foreground font-medium px-6 py-3.5 w-full sm:w-auto rounded-xl hover:bg-secondary hover:border-border backdrop-blur-sm transition-all duration-300 transform hover:-translate-y-0.5"
-            >
-              <Mail className="w-4 h-4 text-muted-foreground" />
-              Let's Connect
-            </a>
+            Available for opportunities
           </div>
-          
         </div>
+
+        {/* Headline */}
+        <h1 className="fade-in-up delay-2 text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-5">
+          Hello, I'm{" "}
+          <span className="bg-gradient-to-br from-primary via-primary/90 to-primary/60 bg-clip-text text-transparent">
+            Khalid Abdi
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="fade-in-up delay-3 text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-7">
+          Full-stack developer based in{" "}
+          <span className="text-foreground font-medium">Bristol</span> — building
+          modern, responsive web apps with{" "}
+          <span className="text-foreground font-medium">React</span>,{" "}
+          <span className="text-foreground font-medium">JavaScript</span>, and{" "}
+          <span className="text-foreground font-medium">Python</span>. I turn ideas
+          into production-ready products with clean, scalable code.
+        </p>
+
+        {/* Tech stack pills */}
+        <div className="fade-in-up delay-3 flex flex-wrap items-center justify-center gap-2 mb-9">
+          {techStack.map((tech) => (
+            <span
+              key={tech}
+              className="text-[11px] text-muted-foreground/70 px-3 py-1 rounded-full border border-border/40 bg-secondary/30 tracking-wide"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* CTA buttons */}
+        <div className="fade-in-up delay-4 flex flex-col sm:flex-row items-center justify-center gap-3 mb-12 w-full">
+          <a
+            href="#project"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-medium px-6 py-3 rounded-xl hover:bg-primary/90 shadow-md transition-all duration-200 hover:-translate-y-0.5 w-full sm:w-auto text-sm"
+          >
+            <Briefcase className="w-4 h-4" />
+            View my work
+          </a>
+
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center gap-2 bg-secondary/40 border border-border/60 text-foreground font-medium px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-200 hover:-translate-y-0.5 w-full sm:w-auto text-sm"
+          >
+            <Mail className="w-4 h-4 text-muted-foreground" />
+            Let's connect
+          </a>
+
+          <a
+            href="https://github.com/Khalid1170"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-secondary/40 border border-border/60 text-foreground font-medium px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-200 hover:-translate-y-0.5 w-full sm:w-auto text-sm"
+          >
+            <Github className="w-4 h-4 text-muted-foreground" />
+            GitHub
+          </a>
+        </div>
+
+        {/* Stats row */}
+        <div className="fade-in-up delay-4 flex items-center gap-8 justify-center mb-16">
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold tracking-tight">3+</span>
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/50">Projects shipped</span>
+          </div>
+          <div className="w-px h-8 bg-border/40" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold tracking-tight">2+</span>
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/50">Years building</span>
+          </div>
+          <div className="w-px h-8 bg-border/40" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold tracking-tight">Full-stack</span>
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/50">Frontend & backend</span>
+          </div>
+        </div>
+
       </div>
 
-      {/* Modern Scrolling Indicator */}
-      <div 
-        className="fade-in delay-4 absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20 transition-opacity duration-700"
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-80 transition-opacity z-20"
         onClick={() => document.getElementById("project")?.scrollIntoView({ behavior: "smooth" })}
       >
-        <span className="text-[10px] sm:text-xs tracking-widest uppercase font-semibold text-muted-foreground group-hover:text-foreground transition-colors duration-300 mb-1.5 sm:mb-2.5">
-          Scroll Down
-        </span>
-        <div className="flex items-start justify-center pt-2 w-7 h-11 sm:w-8 sm:h-12 rounded-full border-2 border-muted-foreground/30 group-hover:border-primary/60 transition-colors duration-300">
-          <div className="w-1.5 h-2.5 sm:h-3 bg-primary rounded-full animate-bounce [animation-duration:2s]" />
+        <span className="text-[10px] tracking-widest uppercase text-muted-foreground">Scroll</span>
+        <div className="flex items-start justify-center pt-1.5 w-6 h-10 rounded-full border border-border/50">
+          <div className="w-1 h-2 bg-primary rounded-full animate-bounce [animation-duration:2s]" />
         </div>
       </div>
     </section>

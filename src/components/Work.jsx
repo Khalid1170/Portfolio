@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  ExternalLink,
   Layers,
   ChevronLeft,
   ChevronRight,
@@ -8,6 +7,7 @@ import {
   RefreshCw,
   ArrowUpRight,
 } from "lucide-react";
+
 const projects = [
   {
     id: "tagmycar",
@@ -19,7 +19,7 @@ const projects = [
       "A hybrid vehicle marketplace bridging physical sales environments with online listings through an intuitive user dashboard and secure transaction flows.",
     bulletPoints: [
       "Instant vehicle-to-digital lead generation via custom QR indexing",
-      "Centralized peer-to-peer automotive web marketplace application",
+      "Centralised peer-to-peer automotive web marketplace application",
       "Real-time listing management and responsive user dashboards",
     ],
     images: ["/tagmycar.webp"],
@@ -31,11 +31,11 @@ const projects = [
     liveUrl: "https://bwk-mq43.vercel.app/",
     tagline: "Bespoke Web Development & Managed Digital Solutions",
     description:
-      "A modern digital agency model delivering custom web layouts, optimized performance metrics, and responsive multi-platform designs.",
+      "A modern digital agency delivering custom web layouts, optimised performance metrics, and responsive multi-platform designs.",
     bulletPoints: [
       "End-to-end frontend and backend corporate web applications",
-      "Fixed-rate monthly maintenance and priority feature development pipelines",
-      "Optimized performance scaling for local and enterprise brands",
+      "Fixed-rate monthly maintenance and priority feature development",
+      "Optimised performance scaling for local and enterprise brands",
     ],
     images: ["/sitetailor.webp"],
   },
@@ -68,12 +68,13 @@ export const WorkSection = () => {
     e.stopPropagation();
     const current = getIndex(project.id);
     const max = project.images.length;
-    const next = dir === "next" ? (current + 1) % max : (current - 1 + max) % max;
-    setIndex(project.id, next);
+    setIndex(project.id, dir === "next" ? (current + 1) % max : (current - 1 + max) % max);
   };
 
-  const openLightbox = (project, index) => setLightbox({ open: true, projectId: project.id, index });
-  const closeLightbox = () => setLightbox({ open: false, projectId: null, index: 0 });
+  const openLightbox = (project, index) =>
+    setLightbox({ open: true, projectId: project.id, index });
+  const closeLightbox = () =>
+    setLightbox({ open: false, projectId: null, index: 0 });
 
   const navigateLightbox = (dir, e) => {
     e.stopPropagation();
@@ -91,31 +92,30 @@ export const WorkSection = () => {
   }, [lightbox.open]);
 
   return (
-    <section id="project" className="py-32 px-4 bg-background relative overflow-hidden">
-      {/* Structural ambient backdrop glow */}
+    <section id="project" className="py-28 px-4 bg-background relative overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto max-w-6xl relative z-10">
 
-        {/* ── HEADER ── */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-secondary/30 backdrop-blur-md text-[11px] font-mono tracking-widest text-primary uppercase mb-4">
-              <Layers className="w-3.5 h-3.5 text-primary" />
-              Selected Engineering Output
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/50 text-[11px] tracking-widest text-muted-foreground uppercase mb-4">
+              <Layers className="w-3 h-3" />
+              Selected engineering output
             </div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-none font-display text-foreground">
-              Featured <span className="bg-gradient-to-r from-muted-foreground via-muted-foreground/70 to-muted-foreground/40 bg-clip-text text-transparent font-light italic">Projects</span>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-none">
+              Featured{" "}
+              <em className="font-normal not-italic text-muted-foreground italic">Projects</em>
             </h2>
           </div>
-
-          <p className="text-muted-foreground/80 font-mono text-xs leading-relaxed border-l border-primary/30 pl-4 max-w-[280px]">
-            // Custom web applications, maintainable system design, and optimized full-stack engineering.
+          <p className="text-muted-foreground text-xs leading-relaxed border-l border-border pl-4 max-w-[240px]">
+            Custom web applications, maintainable system design, and optimised full-stack builds.
           </p>
         </div>
 
-        {/* ── PROJECT LIST ── */}
-        <div className="space-y-16">
+        {/* Projects */}
+        <div className="space-y-4">
           {projects.map((project, i) => {
             const index = getIndex(project.id);
             const image = project.images[index];
@@ -126,138 +126,126 @@ export const WorkSection = () => {
             return (
               <div
                 key={project.id}
-                className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch p-6 md:p-8 rounded-3xl border border-border/40 bg-card/20 backdrop-blur-sm hover:border-border/80 hover:bg-card/40 transition-all duration-500 group"
+                className="grid lg:grid-cols-12 gap-8 items-center p-6 md:p-8 rounded-2xl border border-border/40 bg-card/30 hover:border-border/70 hover:bg-card/50 transition-all duration-300 group"
               >
-                {/* TEXT CONTAINER */}
+                {/* Text */}
                 <div
-                  className={`lg:col-span-5 flex flex-col justify-between py-4 order-2 ${
+                  className={`lg:col-span-5 flex flex-col gap-4 order-2 ${
                     isEven ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  <div className="space-y-6">
-                    {/* Index Counter line layout */}
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-xs font-semibold tracking-wider text-primary">
-                        {numStr} — 0{projects.length}
-                      </span>
-                      <div className="h-[1px] flex-1 bg-border/40" />
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex flex-wrap items-center gap-3">
-                        <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
-                          {project.title}
-                        </h3>
-                        {project.status === "development" ? (
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                            In Development
-                          </span>
-                        ) : (
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                            Live System
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm font-medium text-foreground/80 leading-snug">{project.tagline}</p>
-                    </div>
-
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    <ul className="space-y-2.5 pt-2">
-                      {project.bulletPoints.map((b, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-xs text-muted-foreground/90">
-                          <span className="mt-1.5 w-1 h-1 rounded-full bg-primary shrink-0 shadow-[0_0_6px_rgba(var(--primary),0.8)]" />
-                          <span className="leading-normal">{b}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Counter */}
+                  <div className="flex items-center gap-3 text-[11px] tracking-widest text-muted-foreground/50">
+                    <span>{numStr}</span>
+                    <div className="flex-1 h-px bg-border/30" />
+                    <span>0{projects.length}</span>
                   </div>
 
-                  {/* CTA Interactive Footer */}
-                  <div className="pt-8 lg:pt-0">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-secondary/40 border border-border/60 text-xs font-semibold text-foreground tracking-wide hover:bg-primary hover:text-primary-foreground hover:border-primary shadow-sm transition-all duration-300 group/btn"
-                    >
-                      Explore Application
-                      <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                    </a>
+                  {/* Title + badge */}
+                  <div className="space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <h3 className="text-2xl font-bold tracking-tight">{project.title}</h3>
+                      {project.status === "development" ? (
+                        <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
+                          In development
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">
+                          Live
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs font-medium text-muted-foreground">{project.tagline}</p>
                   </div>
+
+                  <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
+
+                  <ul className="space-y-2">
+                    {project.bulletPoints.map((b, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
+                        <span className="mt-1.5 w-1 h-1 rounded-full bg-primary shrink-0" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 self-start mt-2 px-4 py-2 rounded-lg border border-border/60 text-xs font-medium hover:bg-secondary transition-colors"
+                  >
+                    Explore application
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
                 </div>
 
-                {/* MEDIA / BROWSER INTERFACE */}
+                {/* Media */}
                 <div
-                  className={`lg:col-span-7 order-1 relative flex items-center ${
+                  className={`lg:col-span-7 order-1 relative ${
                     isEven ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
-                  {/* Subtle deep background ghost metric */}
+                  {/* Ghost number */}
                   <span
-                    className="absolute -bottom-10 -right-4 text-[140px] font-black leading-none select-none pointer-events-none text-border/10 group-hover:text-border/20 font-display transition-colors duration-500"
+                    className="absolute -bottom-4 -right-2 text-[90px] font-bold leading-none select-none pointer-events-none text-border/20 transition-colors duration-300"
                     aria-hidden="true"
                   >
                     {numStr}
                   </span>
 
-                  {/* Browser frame Container */}
-                  <div className="w-full relative rounded-2xl border border-border/60 bg-background/50 shadow-md shadow-black/5 overflow-hidden group-hover:border-border/90 group-hover:shadow-xl group-hover:shadow-black/10 transition-all duration-500">
-                    
-                    {/* Address Bar Interface */}
-                    <div className="flex items-center gap-3 px-4 py-3 border-b border-border/40 bg-secondary/20 backdrop-blur-md">
+                  {/* Browser frame */}
+                  <div className="relative rounded-xl border border-border/60 overflow-hidden bg-secondary/20">
+                    {/* Address bar */}
+                    <div className="flex items-center gap-3 px-3 py-2.5 border-b border-border/40 bg-background/50">
                       <div className="flex gap-1.5 shrink-0">
-                        <span className="w-2.5 h-2.5 rounded-full bg-border/60 group-hover:bg-red-500/70 transition-colors duration-300" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-border/60 group-hover:bg-yellow-500/70 transition-colors duration-300" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-border/60 group-hover:bg-green-500/70 transition-colors duration-300" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
                       </div>
-                      <div className="flex-1 flex items-center justify-center bg-background/40 border border-border/30 rounded-lg px-3 py-1 max-w-sm mx-auto">
-                        <span className="text-[10px] font-mono text-muted-foreground/70 truncate tracking-wide">{urlShort}</span>
+                      <div className="flex-1 flex items-center justify-center bg-background/60 border border-border/30 rounded px-3 py-1 max-w-xs mx-auto">
+                        <span className="text-[10px] text-muted-foreground truncate">{urlShort}</span>
                       </div>
-                      <RefreshCw className="w-3 h-3 text-muted-foreground/40 shrink-0 group-hover:rotate-45 transition-transform duration-500" />
+                      <RefreshCw className="w-3 h-3 text-muted-foreground/40 shrink-0" />
                     </div>
 
-                    {/* Viewport Render Block */}
+                    {/* Image */}
                     <div
-                      className="relative overflow-hidden aspect-[16/10] cursor-zoom-in group/img bg-secondary/10"
+                      className="relative overflow-hidden aspect-[16/10] cursor-zoom-in group/img"
                       onClick={() => openLightbox(project, index)}
                     >
                       <img
                         src={image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/img:scale-[1.025]"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.03]"
                       />
 
-                      {/* Asynchronous Navigation Arrows */}
                       {project.images.length > 1 && (
-                        <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300">
+                        <div className="absolute inset-0 flex items-center justify-between px-3 opacity-0 group-hover/img:opacity-100 transition-opacity">
                           <button
                             onClick={(e) => changeImage(project, "prev", e)}
-                            className="p-2 rounded-xl bg-background/90 text-foreground border border-border shadow-lg backdrop-blur-sm hover:bg-secondary hover:scale-105 active:scale-95 transition-all"
-                            aria-label="Previous image"
+                            className="p-1.5 rounded-full bg-background/80 border border-border/50 hover:scale-105 transition"
+                            aria-label="Previous"
                           >
-                            <ChevronLeft className="w-4 h-4" />
+                            <ChevronLeft className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={(e) => changeImage(project, "next", e)}
-                            className="p-2 rounded-xl bg-background/90 text-foreground border border-border shadow-lg backdrop-blur-sm hover:bg-secondary hover:scale-105 active:scale-95 transition-all"
-                            aria-label="Next image"
+                            className="p-1.5 rounded-full bg-background/80 border border-border/50 hover:scale-105 transition"
+                            aria-label="Next"
                           >
-                            <ChevronRight className="w-4 h-4" />
+                            <ChevronRight className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       )}
 
-                      {/* Pagination Status Indicators */}
                       {project.images.length > 1 && (
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 px-2.5 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-border/40 shadow-sm">
+                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                           {project.images.map((_, dotIdx) => (
                             <span
                               key={dotIdx}
-                              className={`h-1.5 rounded-full transition-all duration-300 ${
-                                dotIdx === index ? "w-4 bg-primary" : "w-1.5 bg-muted-foreground/30"
+                              className={`h-1.5 rounded-full transition-all ${
+                                dotIdx === index ? "w-4 bg-primary" : "w-1.5 bg-white/40"
                               }`}
                             />
                           ))}
@@ -272,16 +260,16 @@ export const WorkSection = () => {
         </div>
       </div>
 
-      {/* ── LIGHTBOX MODAL DECOUPLING ── */}
+      {/* Lightbox */}
       {lightbox.open && activeProject && (
         <div
-          className="fixed inset-0 bg-background/95 backdrop-blur-md flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
           onClick={closeLightbox}
         >
           <button
             onClick={closeLightbox}
-            className="absolute top-6 right-6 p-3 rounded-xl bg-secondary/60 text-muted-foreground border border-border/40 hover:text-foreground hover:bg-secondary transition-all"
-            aria-label="Close lightbox"
+            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition"
+            aria-label="Close"
           >
             <X className="w-4 h-4" />
           </button>
@@ -289,14 +277,14 @@ export const WorkSection = () => {
           {activeProject.images.length > 1 && (
             <>
               <button
-                className="absolute left-6 p-3 rounded-xl bg-secondary/60 text-muted-foreground border border-border/40 hover:text-foreground hover:bg-secondary transition-all"
+                className="absolute left-5 p-2 rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition"
                 onClick={(e) => navigateLightbox("prev", e)}
                 aria-label="Previous"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
-                className="absolute right-6 p-3 rounded-xl bg-secondary/60 text-muted-foreground border border-border/40 hover:text-foreground hover:bg-secondary transition-all"
+                className="absolute right-5 p-2 rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition"
                 onClick={(e) => navigateLightbox("next", e)}
                 aria-label="Next"
               >
@@ -305,11 +293,11 @@ export const WorkSection = () => {
             </>
           )}
 
-          <div className="max-w-[90vw] max-h-[85vh] p-2 bg-card/40 border border-border/40 rounded-2xl shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-[88vw] max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
             <img
               src={activeProject.images[lightbox.index]}
               alt={activeProject.title}
-              className="max-h-[80vh] rounded-xl object-contain shadow-inner"
+              className="max-h-[85vh] rounded-xl object-contain"
             />
           </div>
         </div>
