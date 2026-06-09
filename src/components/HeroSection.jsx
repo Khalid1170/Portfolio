@@ -6,7 +6,7 @@ export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center px-2 overflow-hidden bg-background"
+      className="relative pt-10 min-h-screen flex flex-col items-center justify-center px-2 overflow-hidden bg-background"
     >
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[700px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
