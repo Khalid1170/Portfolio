@@ -10,6 +10,21 @@ import {
 
 const projects = [
   {
+    id: "rbautos",
+    title: "RB Autos",
+    status: "live",
+    liveUrl: "https://rb-autos.vercel.app/",
+    tagline: "Independent Garage Website & Local Client Showcase",
+    description:
+      "A bespoke website built for a Bristol-based independent garage, delivering a fast, modern web presence to help a local automotive business compete online.",
+    bulletPoints: [
+      "Custom-built React and Tailwind site tailored to an independent garage's brand and services",
+      "Clean, mobile-first design optimised for local customer discovery",
+      "Delivered as SiteTailor's first agency client engagement, from outreach to launch",
+    ],
+    images: ["/rb.webp"],
+  },
+  {
     id: "tagmycar",
     title: "TagMyCar",
     status: "development",
@@ -97,7 +112,6 @@ export const WorkSection = () => {
 
       <div className="container mx-auto max-w-6xl relative z-10">
 
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/50 text-[11px] tracking-widest text-muted-foreground uppercase mb-4">
@@ -114,7 +128,6 @@ export const WorkSection = () => {
           </p>
         </div>
 
-        {/* Projects */}
         <div className="space-y-4">
           {projects.map((project, i) => {
             const index = getIndex(project.id);
@@ -128,20 +141,17 @@ export const WorkSection = () => {
                 key={project.id}
                 className="grid lg:grid-cols-12 gap-8 items-center p-6 md:p-8 rounded-2xl border border-border/40 bg-card/30 hover:border-border/70 hover:bg-card/50 transition-all duration-300 group"
               >
-                {/* Text */}
                 <div
-                  className={`lg:col-span-5 flex flex-col gap-4 order-2 ${
+                  className={`lg:col-span-5 flex flex-col gap-4 order-2 text-left ${
                     isEven ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  {/* Counter */}
                   <div className="flex items-center gap-3 text-[11px] tracking-widest text-muted-foreground/50">
                     <span>{numStr}</span>
                     <div className="flex-1 h-px bg-border/30" />
                     <span>0{projects.length}</span>
                   </div>
 
-                  {/* Title + badge */}
                   <div className="space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2.5">
                       <h3 className="text-2xl font-bold tracking-tight">{project.title}</h3>
@@ -155,12 +165,12 @@ export const WorkSection = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs font-medium text-muted-foreground">{project.tagline}</p>
+                    <p className="text-xs font-medium text-muted-foreground text-left">{project.tagline}</p>
                   </div>
 
-                  <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed text-left">{project.description}</p>
 
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 text-left">
                     {project.bulletPoints.map((b, idx) => (
                       <li key={idx} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
                         <span className="mt-1.5 w-1 h-1 rounded-full bg-primary shrink-0" />
@@ -180,13 +190,11 @@ export const WorkSection = () => {
                   </a>
                 </div>
 
-                {/* Media */}
                 <div
                   className={`lg:col-span-7 order-1 relative ${
                     isEven ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
-                  {/* Ghost number */}
                   <span
                     className="absolute -bottom-4 -right-2 text-[90px] font-bold leading-none select-none pointer-events-none text-border/20 transition-colors duration-300"
                     aria-hidden="true"
@@ -194,9 +202,7 @@ export const WorkSection = () => {
                     {numStr}
                   </span>
 
-                  {/* Browser frame */}
                   <div className="relative rounded-xl border border-border/60 overflow-hidden bg-secondary/20">
-                    {/* Address bar */}
                     <div className="flex items-center gap-3 px-3 py-2.5 border-b border-border/40 bg-background/50">
                       <div className="flex gap-1.5 shrink-0">
                         <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -209,15 +215,14 @@ export const WorkSection = () => {
                       <RefreshCw className="w-3 h-3 text-muted-foreground/40 shrink-0" />
                     </div>
 
-                    {/* Image */}
                     <div
-                      className="relative overflow-hidden aspect-[16/10] cursor-zoom-in group/img"
+                      className="relative overflow-hidden aspect-[4/3] bg-black/40 cursor-zoom-in group/img flex items-center justify-center"
                       onClick={() => openLightbox(project, index)}
                     >
                       <img
                         src={image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.03]"
+                        className="w-full h-full object-contain object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
                       />
 
                       {project.images.length > 1 && (
@@ -260,7 +265,6 @@ export const WorkSection = () => {
         </div>
       </div>
 
-      {/* Lightbox */}
       {lightbox.open && activeProject && (
         <div
           className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
